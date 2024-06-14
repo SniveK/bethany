@@ -139,6 +139,7 @@ import {
     Users,
     FormInput,
     ChurchIcon,
+    CircleUserRound,
 } from "lucide-react";
 
 import { Badge } from "@/Components/ui/badge";
@@ -221,7 +222,7 @@ export default function AuthenticatedLayout({
                                 </Badge> */}
                             </Link>
                             <Link
-                                href="#"
+                                href="/accounts"
                                 className={
                                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
                                     (url.startsWith("/o")
@@ -229,10 +230,10 @@ export default function AuthenticatedLayout({
                                         : "text-muted-foreground")
                                 }
                             >
-                                <Package className="h-4 w-4" />
-                                Products
+                                <CircleUserRound className="h-4 w-4" />
+                                Accounts
                             </Link>
-                            <Link
+                            {/* <Link
                                 href="#"
                                 className={
                                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
@@ -255,7 +256,7 @@ export default function AuthenticatedLayout({
                             >
                                 <LineChart className="h-4 w-4" />
                                 Analytics
-                            </Link>
+                            </Link> */}
                         </nav>
                     </div>
                     {/* <div className="mt-auto p-4">
