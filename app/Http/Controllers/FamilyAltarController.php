@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Diakonia;
+use App\Models\FamilyAltar;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class DiakoniaController extends Controller
+class FamilyAltarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request): Response
     {
-        return Inertia::render('Diakonia/Index', ["data" => Diakonia::paginate(50)]);
+        return Inertia::render('Diakonia/Index', ["data" => FamilyAltar::paginate(50)]);
     }
 
     /**
@@ -46,8 +46,8 @@ class DiakoniaController extends Controller
      */
     public function edit(string $id)
     {
-        $diakonia = Diakonia::find($id);
-        return Inertia::render('Diakonia/CreateUpdate', ["mode" => "update", "data" => $diakonia]);
+        $data = FamilyAltar::find($id);
+        return Inertia::render('Diakonia/CreateUpdate', ["mode" => "update", "data" => $data]);
         //
     }
 

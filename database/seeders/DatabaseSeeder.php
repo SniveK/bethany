@@ -19,5 +19,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin123'),
         ]);
+        // make a family altar
+        \App\Models\FamilyAltar::factory()->create([
+            'name' => 'Family Altar 1',
+            'address' => 'Address 1',
+            'leader_start_date' => '2024-06-15',
+            'user_id' => 1,
+        ]);
     }
 }

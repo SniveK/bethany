@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DiakoniaController;
+use App\Http\Controllers\FamilyAltarController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ Route::get('/dashboard', function () {
 });
 // ->middleware(['auth', 'verified'])->name('dashboard');
 Route::resource('/diakonia', DiakoniaController::class);
+Route::resource('/family-altar', FamilyAltarController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

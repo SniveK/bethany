@@ -1,5 +1,5 @@
-import forms from '@tailwindcss/forms';
-import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from "@tailwindcss/forms";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -14,6 +14,11 @@ module.exports = {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.tsx",
+
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
+        "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
     ],
     prefix: "",
     theme: {
@@ -84,5 +89,5 @@ module.exports = {
             },
         },
     },
-    plugins: [require("tailwindcss-animate"),forms],
+    plugins: [require("tailwindcss-animate"), forms],
 };

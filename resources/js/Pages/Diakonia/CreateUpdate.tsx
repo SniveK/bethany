@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import {
     File,
@@ -154,7 +154,9 @@ export default function Create({ auth }: PageProps) {
         <AuthenticatedLayout user={auth.user} title={"Diakonia"}>
             <Head title="Dashboard" />
             <div className="flex ">
-                <Button> Back</Button>
+                <Button>
+                    <Link href='/diakonia'>Back</Link>
+                </Button>
             </div>
             <form onSubmit={handleSubmit} className="flex gap-4 flex-col">
                 <Card>

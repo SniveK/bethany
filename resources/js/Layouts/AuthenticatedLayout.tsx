@@ -140,6 +140,7 @@ import {
     FormInput,
     ChurchIcon,
     CircleUserRound,
+    UsersRound,
 } from "lucide-react";
 
 import { Badge } from "@/Components/ui/badge";
@@ -217,6 +218,21 @@ export default function AuthenticatedLayout({
                             >
                                 <FormInput className="h-4 w-4" />
                                 Diakonia
+                                {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                                    6
+                                </Badge> */}
+                            </Link>
+                            <Link
+                                href="/family-altar"
+                                className={
+                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                    (url.startsWith("/family-altar")
+                                        ? "bg-muted"
+                                        : "text-muted-foreground")
+                                }
+                            >
+                                <UsersRound className="h-4 w-4" />
+                                Family Altar
                                 {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                                     6
                                 </Badge> */}
