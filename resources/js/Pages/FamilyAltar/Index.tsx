@@ -59,27 +59,13 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/Components/ui/tooltip";
-export default function Index({ auth, data }: PageProps) {
-    console.log(data);
+export default function Index({ auth, data }: PageProps<{ data: any }>) {
     return (
-        <AuthenticatedLayout user={auth.user} title={"Diakonia"}>
-            <Head title="Dashboard" />
-            <Tabs defaultValue="all">
-                <div className="flex items-center">
-                    <TabsList>
-                        <TabsTrigger value="all">Semua</TabsTrigger>
-                        <TabsTrigger value="active">Diserahkan</TabsTrigger>
-                        <TabsTrigger value="draft">Diterima</TabsTrigger>
-                        <TabsTrigger value="draft">Ditolak</TabsTrigger>
-                        {/* <TabsTrigger
-                            value="archived"
-                            className="hidden sm:flex"
-                        >
-                            Archived
-                        </TabsTrigger> */}
-                    </TabsList>
-                    <div className="ml-auto flex items-center gap-2">
-                        {/* <DropdownMenu>
+        <AuthenticatedLayout user={auth.user} title={"Family Altar"}>
+            <Head title="Family Altar" />
+            <div className="flex items-center">
+                <div className="ml-auto flex items-center gap-2">
+                    {/* <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="outline"
@@ -106,7 +92,7 @@ export default function Index({ auth, data }: PageProps) {
                                 </DropdownMenuCheckboxItem>
                             </DropdownMenuContent>
                         </DropdownMenu> */}
-                        {/* <Button
+                    {/* <Button
                             size="sm"
                             variant="outline"
                             className="h-8 gap-1"
@@ -116,52 +102,47 @@ export default function Index({ auth, data }: PageProps) {
                                 Export
                             </span>
                         </Button> */}
-                        <Button size="sm" className="h-8 gap-1">
-                            <PlusCircle className="h-3.5 w-3.5" />
-                            <Link
-                                className="sr-only sm:not-sr-only sm:whitespace-nowrap"
-                                href="/diakonia/create"
-                            >
-                                Buat Form Diakonia
-                            </Link>
-                        </Button>
-                    </div>
+                    <Button size="sm" className="h-8 gap-1">
+                        <PlusCircle className="h-3.5 w-3.5" />
+                        <Link
+                            className="sm:whitespace-nowrap"
+                            href="/family-altar/create"
+                        >
+                            Tambah Family Altar
+                        </Link>
+                    </Button>
                 </div>
-                <TabsContent value="all">
-                    <Card x-chunk="dashboard-06-chunk-0">
-                        <CardHeader>
-                            <CardTitle>Form Diakonia</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead className="hidden md:table-cell">
-                                            Jumlah
-                                        </TableHead>
-                                        <TableHead className="hidden md:table-cell">
-                                            Created at
-                                        </TableHead>
-                                        <TableHead>Actions</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    <TableRow>
+            </div>
+            <Card x-chunk="dashboard-06-chunk-0">
+                <CardContent>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Address</TableHead>
+                                <TableHead className="hidden md:table-cell">
+                                    Ketua
+                                </TableHead>
+                                <TableHead className="hidden md:table-cell">
+                                    Dibuat Tanggal
+                                </TableHead>
+                                <TableHead>Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {data.data?.map((familyAltar: any) => (
+                                    <TableRow key={familyAltar.id}>
                                         <TableCell className="font-medium">
-                                            Laser Lemonade Machine
+                                            {familyAltar.name}
                                         </TableCell>
                                         <TableCell>
-                                            <Badge variant="outline">
-                                                Diserahkan
-                                            </Badge>
+                                            {familyAltar.address}
                                         </TableCell>
                                         <TableCell className="hidden md:table-cell">
-                                            RP. 100.000
+                                            {familyAltar.leader}
                                         </TableCell>
                                         <TableCell className="hidden md:table-cell">
-                                            2023-07-12 10:42 AM
+                                            {familyAltar.created_at}
                                         </TableCell>
                                         <TableCell>
                                             <DropdownMenu>
@@ -191,22 +172,62 @@ export default function Index({ auth, data }: PageProps) {
                                             </DropdownMenu>
                                         </TableCell>
                                     </TableRow>
-                                </TableBody>
-                            </Table>
-                        </CardContent>
-                        <CardFooter className="justify-between">
-                            <div className="text-xs text-muted-foreground">
-                                Showing <strong>1-10</strong> of{" "}
-                                <strong>32</strong> products
-                            </div>
-                            <div className="flex gap-2">
-                                <Button>Previous</Button>
-                                <Button>Next</Button>
-                            </div>
-                        </CardFooter>
-                    </Card>
-                </TabsContent>
-            </Tabs>
+                                ))}
+                            {/* <TableRow>
+                                <TableCell className="font-medium">
+                                    Laser Lemonade Machine
+                                </TableCell>
+                                <TableCell>
+                                    <Badge variant="outline">Diserahkan</Badge>
+                                </TableCell>
+                                <TableCell className="hidden md:table-cell">
+                                    RP. 100.000
+                                </TableCell>
+                                <TableCell className="hidden md:table-cell">
+                                    2023-07-12 10:42 AM
+                                </TableCell>
+                                <TableCell>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                aria-haspopup="true"
+                                                size="icon"
+                                                variant="ghost"
+                                            >
+                                                <MoreHorizontal className="h-4 w-4" />
+                                                <span className="sr-only">
+                                                    Toggle menu
+                                                </span>
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuLabel>
+                                                Actions
+                                            </DropdownMenuLabel>
+                                            <DropdownMenuItem>
+                                                Edit
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem>
+                                                Delete
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </TableCell>
+                            </TableRow> */}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+                <CardFooter className="justify-between">
+                    <div className="text-xs text-muted-foreground">
+                        Showing <strong>1-10</strong> of <strong>32</strong>{" "}
+                        forms
+                    </div>
+                    <div className="flex gap-2">
+                        <Button>Previous</Button>
+                        <Button>Next</Button>
+                    </div>
+                </CardFooter>
+            </Card>
         </AuthenticatedLayout>
     );
 }

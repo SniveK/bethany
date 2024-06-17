@@ -164,7 +164,6 @@ import { Input } from "@/Components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
 import { PropsWithChildren } from "react";
 import { Link, usePage } from "@inertiajs/react";
-
 export default function AuthenticatedLayout({
     user,
     title,
@@ -318,42 +317,58 @@ export default function AuthenticatedLayout({
                                     <span className="sr-only">Acme Inc</span>
                                 </Link>
                                 <Link
-                                    href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                                    href="/dashboard"
+                                    className={
+                                        "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground " +
+                                        (url.startsWith("/dashboard")
+                                            ? "bg-muted"
+                                            : "text-muted-foreground")
+                                    }
                                 >
                                     <Home className="h-5 w-5" />
                                     Dashboard
                                 </Link>
                                 <Link
-                                    href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+                                    href="/diakonia"
+                                    className={
+                                        "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground " +
+                                        (url.startsWith("/diakonia")
+                                            ? "bg-muted"
+                                            : "text-muted-foreground")
+                                    }
                                 >
-                                    <ShoppingCart className="h-5 w-5" />
-                                    Orders
-                                    <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                                        6
-                                    </Badge>
+                                    <FormInput className="h-5 w-5" />
+                                    Diakonia
+                                    {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                                    6
+                                </Badge> */}
                                 </Link>
                                 <Link
-                                    href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                                    href="/family-altar"
+                                    className={
+                                        "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground " +
+                                        (url.startsWith("/family-altar")
+                                            ? "bg-muted"
+                                            : "text-muted-foreground")
+                                    }
                                 >
-                                    <Package className="h-5 w-5" />
-                                    Products
+                                    <UsersRound className="h-5 w-5" />
+                                    Family Altar
+                                    {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                                    6
+                                </Badge> */}
                                 </Link>
                                 <Link
-                                    href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                                    href="/accounts"
+                                    className={
+                                        "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground " +
+                                        (url.startsWith("/o")
+                                            ? "bg-muted"
+                                            : "text-muted-foreground")
+                                    }
                                 >
-                                    <Users className="h-5 w-5" />
-                                    Customers
-                                </Link>
-                                <Link
-                                    href="#"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                                >
-                                    <LineChart className="h-5 w-5" />
-                                    Analytics
+                                    <CircleUserRound className="h-5 w-5" />
+                                    Accounts
                                 </Link>
                             </nav>
                             {/* <div className="mt-auto">

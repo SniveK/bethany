@@ -14,7 +14,8 @@ class DiakoniaController extends Controller
      */
     public function index(Request $request): Response
     {
-        return Inertia::render('Diakonia/Index', ["data" => Diakonia::paginate(50)]);
+        $data = Diakonia::paginate(1);
+        return Inertia::render('Diakonia/Index', ["data" => $data]);
     }
 
     /**

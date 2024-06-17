@@ -14,7 +14,7 @@ class FamilyAltarController extends Controller
      */
     public function index(Request $request): Response
     {
-        return Inertia::render('Diakonia/Index', ["data" => FamilyAltar::paginate(50)]);
+        return Inertia::render('FamilyAltar/Index', ["data" => FamilyAltar::paginate(50)]);
     }
 
     /**
@@ -22,7 +22,7 @@ class FamilyAltarController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Diakonia/CreateUpdate', ["mode" => "create"]);
+        return Inertia::render('FamilyAltar/CreateUpdate', ["mode" => "create"]);
     }
 
     /**
@@ -47,7 +47,7 @@ class FamilyAltarController extends Controller
     public function edit(string $id)
     {
         $data = FamilyAltar::find($id);
-        return Inertia::render('Diakonia/CreateUpdate', ["mode" => "update", "data" => $data]);
+        return Inertia::render('FamilyAltar/CreateUpdate', ["mode" => "update", "data" => $data]);
         //
     }
 

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('diakonias', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('status');
             //requester data
             $table->string('requester_first_name');
             $table->string('requester_last_name');

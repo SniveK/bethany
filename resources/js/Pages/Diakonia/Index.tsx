@@ -59,7 +59,25 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/Components/ui/tooltip";
-export default function Index({ auth, data }: PageProps) {
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/Components/ui/pagination";
+import {
+    formatDate,
+    formatNumberToRupiah,
+    formatStringToRupiah,
+} from "@/lib/utilities";
+export default function Index({
+    auth,
+    data,
+    links,
+}: PageProps<{ data: any; links: any }>) {
     console.log(data);
     return (
         <AuthenticatedLayout user={auth.user} title={"Diakonia"}>
@@ -148,60 +166,103 @@ export default function Index({ auth, data }: PageProps) {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    <TableRow>
-                                        <TableCell className="font-medium">
-                                            Laser Lemonade Machine
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge variant="outline">
-                                                Diserahkan
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell className="hidden md:table-cell">
-                                            RP. 100.000
-                                        </TableCell>
-                                        <TableCell className="hidden md:table-cell">
-                                            2023-07-12 10:42 AM
-                                        </TableCell>
-                                        <TableCell>
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button
-                                                        aria-haspopup="true"
-                                                        size="icon"
-                                                        variant="ghost"
+                                    {data.data.map((item: any) => (
+                                        <TableRow>
+                                            <TableCell className="font-medium">
+                                                {item.requester_first_name +
+                                                    " " +
+                                                    item.requester_last_name}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Badge variant="outline">
+                                                    {item.status}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell className="hidden md:table-cell">
+                                                {formatNumberToRupiah(
+                                                    item.requester_help.reduce(
+                                                        (
+                                                            total: any,
+                                                            helpItem: any
+                                                        ) =>
+                                                            total +
+                                                            helpItem.amount,
+                                                        0
+                                                    )
+                                                )}
+                                            </TableCell>
+                                            <TableCell className="hidden md:table-cell">
+                                                {formatDate(item.created_at)}
+                                            </TableCell>
+                                            <TableCell>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger
+                                                        asChild
                                                     >
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                        <span className="sr-only">
-                                                            Toggle menu
-                                                        </span>
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>
-                                                        Actions
-                                                    </DropdownMenuLabel>
-                                                    <DropdownMenuItem>
-                                                        Edit
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem>
-                                                        Delete
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </TableCell>
-                                    </TableRow>
+                                                        <Button
+                                                            aria-haspopup="true"
+                                                            size="icon"
+                                                            variant="ghost"
+                                                        >
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                            <span className="sr-only">
+                                                                Toggle menu
+                                                            </span>
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>
+                                                            Actions
+                                                        </DropdownMenuLabel>
+                                                        <DropdownMenuItem>
+                                                            Edit
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem>
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
                                 </TableBody>
                             </Table>
                         </CardContent>
                         <CardFooter className="justify-between">
                             <div className="text-xs text-muted-foreground">
-                                Showing <strong>1-10</strong> of{" "}
-                                <strong>32</strong> products
+                                {/* Showing <strong>1-10</strong> of{" "}
+                                <strong>32</strong> products */}
                             </div>
                             <div className="flex gap-2">
-                                <Button>Previous</Button>
-                                <Button>Next</Button>
+                                {/* <Button>Previous</Button>
+                                <Button>Next</Button> */}
+                                <Pagination>
+                                    <PaginationContent>
+                                        <PaginationItem>
+                                            <PaginationPrevious
+                                                href={data.links[0]}
+                                            />
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            {/* <PaginationLink href="#">
+                                                1
+                                            </PaginationLink> */}
+                                            <Input
+                                                type="number"
+                                                className="w-[40px] me-2"
+                                                defaultValue={data.current_page}
+                                                // value={data.current_page}
+                                            ></Input>
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            <span className="me-2">of</span>
+                                            {data.last_page}
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            <PaginationNext href="#" />
+                                        </PaginationItem>
+                                    </PaginationContent>
+                                </Pagination>
                             </div>
                         </CardFooter>
                     </Card>

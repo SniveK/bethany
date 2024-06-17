@@ -80,6 +80,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/Components/ui/select";
+import { formatStringToRupiah } from "@/lib/utilities";
 import { Textarea } from "@/Components/ui/textarea";
 export default function Create({ auth }: PageProps) {
     const [values, setValues] = useState({
@@ -110,18 +111,7 @@ export default function Create({ auth }: PageProps) {
         e.preventDefault();
         router.post("/diakonia", values);
     }
-    function formatToRupiah(str: string) {
-        // Remove all non-digit characters
-        const cleaned = str.replace(/\D/g, "");
 
-        // Convert to number and format to Rupiah
-        const formatter = new Intl.NumberFormat("id-ID", {
-            style: "currency",
-            currency: "IDR",
-            minimumFractionDigits: 0,
-        });
-        return formatter.format(cleaned as any);
-    }
     function getNumberFromFormattedString(str: string) {
         // Remove all non-digit characters
         const cleaned = str.replace(/\D/g, "");
@@ -155,7 +145,7 @@ export default function Create({ auth }: PageProps) {
             <Head title="Dashboard" />
             <div className="flex ">
                 <Button>
-                    <Link href='/diakonia'>Back</Link>
+                    <Link href="/diakonia">Back</Link>
                 </Button>
             </div>
             <form onSubmit={handleSubmit} className="flex gap-4 flex-col">
@@ -324,7 +314,7 @@ export default function Create({ auth }: PageProps) {
                                         <TableCell>
                                             <Input
                                                 id={"diakonia_amount" + index}
-                                                value={formatToRupiah(
+                                                value={formatStringToRupiah(
                                                     diakonia.diakonia_amount.toString()
                                                 )}
                                                 onChange={(e) => {
