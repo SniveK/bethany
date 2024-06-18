@@ -29,9 +29,11 @@ class DiakoniaSeeder extends Seeder
             'requester_help' => [[
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ], [
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -46,9 +48,11 @@ class DiakoniaSeeder extends Seeder
             'requester_help' => [[
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ], [
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -63,9 +67,11 @@ class DiakoniaSeeder extends Seeder
             'requester_help' => [[
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ], [
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -80,9 +86,11 @@ class DiakoniaSeeder extends Seeder
             'requester_help' => [[
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ], [
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -97,9 +105,11 @@ class DiakoniaSeeder extends Seeder
             'requester_help' => [[
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ], [
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -114,9 +124,11 @@ class DiakoniaSeeder extends Seeder
             'requester_help' => [[
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ], [
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -131,9 +143,11 @@ class DiakoniaSeeder extends Seeder
             'requester_help' => [[
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ], [
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -148,9 +162,11 @@ class DiakoniaSeeder extends Seeder
             'requester_help' => [[
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ], [
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -165,9 +181,11 @@ class DiakoniaSeeder extends Seeder
             'requester_help' => [[
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ], [
                 'type' => 'makanan',
                 'amount' => 100000,
+                'notes' => 'note',
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,

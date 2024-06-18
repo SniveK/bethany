@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
-import { PageProps } from "@/types";
+import { Head, Link, router } from "@inertiajs/react";
+import { Diakonia, PageProps, Paginated } from "@/types";
 import {
     File,
     Home,
@@ -75,10 +75,16 @@ import {
 } from "@/lib/utilities";
 export default function Index({
     auth,
-    data,
+    diakonias,
     links,
-}: PageProps<{ data: any; links: any }>) {
-    console.log(data);
+}: PageProps<{ diakonias: Paginated<Diakonia>; links: any }>) {
+
+    function destroy(id: number): void {
+        if (confirm("Are you sure you want to delete this item?")) {
+            router.delete(route("diakonia.destroy", id));
+        }
+    }
+
     return (
         <AuthenticatedLayout user={auth.user} title={"Diakonia"}>
             <Head title="Dashboard" />
@@ -166,8 +172,8 @@ export default function Index({
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {data.data.map((item: any) => (
-                                        <TableRow>
+                                    {diakonias.data.map((item) => (
+                                        <TableRow key={item.id}>
                                             <TableCell className="font-medium">
                                                 {item.requester_first_name +
                                                     " " +
@@ -215,10 +221,17 @@ export default function Index({
                                                             Actions
                                                         </DropdownMenuLabel>
                                                         <DropdownMenuItem>
-                                                            Edit
+                                                            <Link href={route('diakonia.edit', item.id)}>Edit</Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem>
-                                                            Delete
+                                                            <Button
+                                                                variant="outline"
+                                                                color="red"
+                                                                size="sm"
+                                                                onClick={() => destroy(item.id)}
+                                                            >
+                                                                Delete
+                                                            </Button>
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
@@ -240,7 +253,7 @@ export default function Index({
                                     <PaginationContent>
                                         <PaginationItem>
                                             <PaginationPrevious
-                                                href={data.links[0]}
+                                                href={diakonias.prev_page_url}
                                             />
                                         </PaginationItem>
                                         <PaginationItem>
@@ -250,16 +263,16 @@ export default function Index({
                                             <Input
                                                 type="number"
                                                 className="w-[40px] me-2"
-                                                defaultValue={data.current_page}
-                                                // value={data.current_page}
+                                                defaultValue={diakonias.current_page}
+                                            // value={data.current_page}
                                             ></Input>
                                         </PaginationItem>
                                         <PaginationItem>
                                             <span className="me-2">of</span>
-                                            {data.last_page}
+                                            {diakonias.last_page}
                                         </PaginationItem>
                                         <PaginationItem>
-                                            <PaginationNext href="#" />
+                                            <PaginationNext href={diakonias.next_page_url} />
                                         </PaginationItem>
                                     </PaginationContent>
                                 </Pagination>

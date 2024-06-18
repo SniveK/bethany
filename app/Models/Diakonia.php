@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Diakonia extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,27 +22,19 @@ class Diakonia extends Model
         'requester_phone_number',
         'requester_birth_date',
         'request_date',
+        'status',
         'requester_help',
+        'user_id',
+        'family_altar_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        // 'password',
-        // 'remember_token',
-    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        // 'email_verified_at' => 'datetime',
-        // 'password' => 'hashed',
-        'requester_help' => 'array',
-    ];
+    public function familyAltar()
+    {
+        return $this->belongsTo(FamilyAltar::class);
+    }
 }
