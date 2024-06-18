@@ -41,7 +41,7 @@ export interface FamilyAltar {
     name: string;
     address: string;
     leader_start_date: string;
-    User: User;
+    user: User;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {

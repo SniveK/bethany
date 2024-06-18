@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
-import { PageProps } from "@/types";
+import { Head, Link, useForm } from "@inertiajs/react";
+import { FamilyAltar, PageProps, User } from "@/types";
 import {
     File,
     Home,
@@ -92,37 +92,23 @@ import {
     CommandList,
     CommandSeparator,
 } from "@/Components/ui/command";
-const frameworks = [
-    {
-        value: "next.js",
-        label: "Next.js",
-    },
-    {
-        value: "sveltekit",
-        label: "SvelteKit",
-    },
-    {
-        value: "nuxt.js",
-        label: "Nuxt.js",
-    },
-    {
-        value: "remix",
-        label: "Remix",
-    },
-    {
-        value: "astro",
-        label: "Astro",
-    },
-];
-export default function Create({ auth }: PageProps) {
+
+export default function Create({ auth, users, familyAltar }: PageProps<{ users: User[], familyAltar: FamilyAltar }>) {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState("");
-    const [values, setValues] = useState({
-        name: "",
-        address: "",
-        ketua: "",
+    const [usersSearch, setUsersSearch] = useState(users.map((user) => {
+        return {
+            id: user.id,
+            value: user.name,
+        };
+    }));
+    const { data: values, setData: setValues, post, put, processing, errors, reset } = useForm({
+        name: familyAltar ? familyAltar.name : "",
+        address: familyAltar ? familyAltar.address : "",
+        user_id: familyAltar ? familyAltar.user.id.toString() : "",
     });
+
     console.log(values);
+
     function handleChange(e: any) {
         const key = e.target.id;
         const value = e.target.value;
@@ -131,13 +117,19 @@ export default function Create({ auth }: PageProps) {
             [key]: value,
         }));
     }
+
     function handleSubmit(e: any) {
         e.preventDefault();
-        router.post("/diakonia", values);
+        if (familyAltar) {
+            put(route("family-altar.update", familyAltar.id));
+        } else {
+            post(route("family-altar.store"));
+        }
     }
+
     return (
         <AuthenticatedLayout user={auth.user} title={"Family Altar"}>
-            <Head title="Dashboard" />
+            <Head title="Family Altar" />
             <div className="flex ">
                 <Button>
                     <Link href="/family-altar">Back</Link>
@@ -176,12 +168,12 @@ export default function Create({ auth }: PageProps) {
                                             aria-expanded={open}
                                             className="w-[200px] justify-between"
                                         >
-                                            {value
-                                                ? frameworks.find(
-                                                      (framework) =>
-                                                          framework.value ===
-                                                          value
-                                                  )?.label
+                                            {values.user_id
+                                                ? users.find(
+                                                    (user) =>
+                                                        user.id.toString() ===
+                                                        values.user_id
+                                                )?.name
                                                 : "Pilih ketua"}
                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                         </Button>
@@ -191,40 +183,33 @@ export default function Create({ auth }: PageProps) {
                                             <CommandInput placeholder="Cari ketua" />
                                             <CommandList>
                                                 <CommandGroup>
-                                                    {frameworks.map(
-                                                        (framework) => (
+                                                    {usersSearch.map(
+                                                        (user) => (
                                                             <CommandItem
                                                                 key={
-                                                                    framework.value
+                                                                    user.value
                                                                 }
                                                                 value={
-                                                                    framework.value
+                                                                    user.value
                                                                 }
                                                                 onSelect={(
                                                                     currentValue
                                                                 ) => {
-                                                                    setValue(
-                                                                        currentValue ===
-                                                                            value
-                                                                            ? ""
-                                                                            : currentValue
-                                                                    );
-                                                                    setOpen(
-                                                                        false
-                                                                    );
+                                                                    setValues('user_id', user.id.toString())
+                                                                    setOpen(false);
                                                                 }}
                                                             >
                                                                 <Check
                                                                     className={cn(
                                                                         "mr-2 h-4 w-4",
-                                                                        value ===
-                                                                            framework.value
+                                                                        values.user_id ===
+                                                                            user.value
                                                                             ? "opacity-100"
                                                                             : "opacity-0"
                                                                     )}
                                                                 />
                                                                 {
-                                                                    framework.label
+                                                                    user.value
                                                                 }
                                                             </CommandItem>
                                                         )
@@ -239,7 +224,7 @@ export default function Create({ auth }: PageProps) {
                     </CardContent>
                 </Card>
 
-                <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={processing}>Submit</Button>
             </form>
         </AuthenticatedLayout>
     );

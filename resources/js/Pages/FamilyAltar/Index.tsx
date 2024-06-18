@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
-import { PageProps } from "@/types";
+import { Head, Link, router } from "@inertiajs/react";
+import { FamilyAltar, PageProps, Paginated } from "@/types";
 import {
     File,
     Home,
@@ -59,7 +59,14 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/Components/ui/tooltip";
-export default function Index({ auth, data }: PageProps<{ data: any }>) {
+export default function Index({ auth, familyAltars }: PageProps<{ familyAltars: Paginated<FamilyAltar> }>) {
+
+    function destroy(id: number): void {
+        if (confirm("Are you sure you want to delete this item?")) {
+            router.delete(route("family-altar.destroy", id));
+        }
+    }
+
     return (
         <AuthenticatedLayout user={auth.user} title={"Family Altar"}>
             <Head title="Family Altar" />
@@ -130,49 +137,56 @@ export default function Index({ auth, data }: PageProps<{ data: any }>) {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {data.data?.map((familyAltar: any) => (
-                                    <TableRow key={familyAltar.id}>
-                                        <TableCell className="font-medium">
-                                            {familyAltar.name}
-                                        </TableCell>
-                                        <TableCell>
-                                            {familyAltar.address}
-                                        </TableCell>
-                                        <TableCell className="hidden md:table-cell">
-                                            {familyAltar.leader}
-                                        </TableCell>
-                                        <TableCell className="hidden md:table-cell">
-                                            {familyAltar.created_at}
-                                        </TableCell>
-                                        <TableCell>
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
+                            {familyAltars.data?.map((familyAltar) => (
+                                <TableRow key={familyAltar.id}>
+                                    <TableCell className="font-medium">
+                                        {familyAltar.name}
+                                    </TableCell>
+                                    <TableCell>
+                                        {familyAltar.address}
+                                    </TableCell>
+                                    <TableCell className="hidden md:table-cell">
+                                        {familyAltar.user.name}
+                                    </TableCell>
+                                    <TableCell className="hidden md:table-cell">
+                                        {familyAltar.created_at}
+                                    </TableCell>
+                                    <TableCell>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    aria-haspopup="true"
+                                                    size="icon"
+                                                    variant="ghost"
+                                                >
+                                                    <MoreHorizontal className="h-4 w-4" />
+                                                    <span className="sr-only">
+                                                        Toggle menu
+                                                    </span>
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuLabel>
+                                                    Actions
+                                                </DropdownMenuLabel>
+                                                <DropdownMenuItem>
+                                                    <Link href={route("family-altar.edit", familyAltar.id)}>Edit</Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem>
                                                     <Button
-                                                        aria-haspopup="true"
-                                                        size="icon"
-                                                        variant="ghost"
+                                                        variant="outline"
+                                                        color="red"
+                                                        size="sm"
+                                                        onClick={() => destroy(familyAltar.id)}
                                                     >
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                        <span className="sr-only">
-                                                            Toggle menu
-                                                        </span>
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>
-                                                        Actions
-                                                    </DropdownMenuLabel>
-                                                    <DropdownMenuItem>
-                                                        Edit
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem>
                                                         Delete
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                                    </Button>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                             {/* <TableRow>
                                 <TableCell className="font-medium">
                                     Laser Lemonade Machine

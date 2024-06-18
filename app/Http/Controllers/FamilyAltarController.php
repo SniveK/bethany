@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FamilyAltar;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -14,7 +15,8 @@ class FamilyAltarController extends Controller
      */
     public function index(Request $request): Response
     {
-        return Inertia::render('FamilyAltar/Index', ["data" => FamilyAltar::paginate(50)]);
+        $familyAltars = FamilyAltar::with('user')->paginate(10);
+        return Inertia::render('FamilyAltar/Index', ["familyAltars" => $familyAltars]);
     }
 
     /**
@@ -22,7 +24,8 @@ class FamilyAltarController extends Controller
      */
     public function create()
     {
-        return Inertia::render('FamilyAltar/CreateUpdate', ["mode" => "create"]);
+        $users = User::all();
+        return Inertia::render('FamilyAltar/CreateUpdate', ["users" => $users]);
     }
 
     /**
@@ -30,7 +33,20 @@ class FamilyAltarController extends Controller
      */
     public function store(Request $request)
     {
-        // return Inertia::render('Diakonia/Create', []);
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $familyAltar = FamilyAltar::create([
+            'name' => $request->name,
+            'address' => $request->address,
+            'user_id' => $request->user_id,
+            'leader_start_date' => now()->format('Y-m-d'),
+        ]);
+
+        return redirect()->route('family-altar.index')->with('success', 'FA berhasil disimpan');
     }
 
     /**
@@ -44,26 +60,40 @@ class FamilyAltarController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(FamilyAltar $family_altar)
     {
-        $data = FamilyAltar::find($id);
-        return Inertia::render('FamilyAltar/CreateUpdate', ["mode" => "update", "data" => $data]);
-        //
+        $family_altar->load('user');
+        $users = User::all();
+        return Inertia::render('FamilyAltar/CreateUpdate', ["users" => $users, "familyAltar" => $family_altar]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, FamilyAltar $family_altar)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $family_altar->update([
+            'name' => $request->name,
+            'address' => $request->address,
+            'user_id' => $request->user_id,
+            'leader_start_date' => now()->format('Y-m-d'),
+        ]);
+
+        return redirect()->route('family-altar.index')->with('success', 'FA berhasil diperbarui');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(FamilyAltar $family_altar)
     {
-        //
+        $family_altar->delete();
+        return redirect()->route('family-altar.index')->with('success', 'FA berhasil dihapus');
     }
 }
