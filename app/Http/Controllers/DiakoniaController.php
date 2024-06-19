@@ -44,6 +44,7 @@ class DiakoniaController extends Controller
             'diakonia.*.amount' => 'required|integer',
             'diakonia.*.notes' => 'required|string',
         ]);
+        dd($validated);
         $diakonia = Diakonia::create([
             'requester_first_name' => $validated['first_name'],
             'requester_last_name' => $validated['last_name'],
@@ -63,7 +64,8 @@ class DiakoniaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $diakonia = Diakonia::find($id);
+        return Inertia::render('Diakonia/Show', ["diakonia" => $diakonia]);
     }
 
     /**

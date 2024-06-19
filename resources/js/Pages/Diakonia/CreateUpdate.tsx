@@ -95,7 +95,7 @@ export default function Create({ auth, diakonia, mode }: PageProps<{  diakonia: 
         }],
         family_altar_id: diakonia ? diakonia.family_altar.id.toString() : '',
     });
-
+    console.log(values);
     function handleChange(e: any) {
         const key = e.target.id;
         const value = e.target.value;

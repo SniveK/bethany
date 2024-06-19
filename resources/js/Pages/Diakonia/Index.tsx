@@ -159,17 +159,37 @@ export default function Index({
                         <TableBody>
                             {diakonias.data.map((item) => (
                                 <TableRow key={item.id}>
-                                    <TableCell className="font-medium">
+                                    <TableCell
+                                        className="font-medium"
+                                        onClick={() => {
+                                            router.visit(
+                                                "/diakonia/" + item.id
+                                            );
+                                        }}
+                                    >
                                         {item.requester_first_name +
                                             " " +
                                             item.requester_last_name}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell
+                                        onClick={() => {
+                                            router.visit(
+                                                "/diakonia/" + item.id
+                                            );
+                                        }}
+                                    >
                                         <Badge variant="outline">
                                             {item.status}
                                         </Badge>
                                     </TableCell>
-                                    <TableCell className="hidden md:table-cell">
+                                    <TableCell
+                                        className="hidden md:table-cell"
+                                        onClick={() => {
+                                            router.visit(
+                                                "/diakonia/" + item.id
+                                            );
+                                        }}
+                                    >
                                         {formatNumberToRupiah(
                                             item.requester_help.reduce(
                                                 (total: any, helpItem: any) =>
@@ -178,7 +198,14 @@ export default function Index({
                                             )
                                         )}
                                     </TableCell>
-                                    <TableCell className="hidden md:table-cell">
+                                    <TableCell
+                                        className="hidden md:table-cell"
+                                        onClick={() => {
+                                            router.visit(
+                                                "/diakonia/" + item.id
+                                            );
+                                        }}
+                                    >
                                         {formatDate(item.created_at)}
                                     </TableCell>
                                     <TableCell>
@@ -209,17 +236,13 @@ export default function Index({
                                                         Edit
                                                     </Link>
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem>
-                                                    <Button
-                                                        variant="outline"
-                                                        color="red"
-                                                        size="sm"
-                                                        onClick={() =>
-                                                            destroy(item.id)
-                                                        }
-                                                    >
-                                                        Delete
-                                                    </Button>
+                                                <DropdownMenuItem
+                                                    onClick={() => {
+                                                        console.log(item.id);
+                                                        destroy(item.id);
+                                                    }}
+                                                >
+                                                    Delete
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
