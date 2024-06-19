@@ -82,9 +82,7 @@ import {
 } from "@/Components/ui/select";
 import { formatStringToRupiah } from "@/lib/utilities";
 import { Textarea } from "@/Components/ui/textarea";
-export default function Create({ auth, familyAltars, diakonia, mode }: PageProps<{ familyAltars: FamilyAltar[], diakonia: Diakonia, mode: string }>) {
-    console.log(diakonia);
-
+export default function Create({ auth, diakonia, mode }: PageProps<{  diakonia: Diakonia, mode: string }>) {
     const { data: values, setData: setValues, post, put, processing, errors, reset } = useForm({
         first_name: diakonia ? diakonia.requester_first_name : "",
         last_name: diakonia ? diakonia.requester_last_name : "",
@@ -178,7 +176,7 @@ export default function Create({ auth, familyAltars, diakonia, mode }: PageProps
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div>
+                            {/* <div>
                                 <Label htmlFor="family_altar_id">
                                     Family Altar
                                 </Label>
@@ -204,7 +202,7 @@ export default function Create({ auth, familyAltars, diakonia, mode }: PageProps
                                         )}
                                     </SelectContent>
                                 </Select>
-                            </div>
+                            </div> */}
                             <div>
                                 <Label htmlFor="phone_number">
                                     Nomor Telpon
