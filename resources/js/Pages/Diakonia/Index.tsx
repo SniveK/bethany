@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import { Diakonia, PageProps, Paginated } from "@/types";
 import {
+    Calendar,
     File,
     Home,
     LineChart,
@@ -74,20 +75,37 @@ import {
     formatNumberToRupiah,
     formatStringToRupiah,
 } from "@/lib/utilities";
+import { useEffect, useState } from "react";
 export default function Index({
     auth,
     diakonias,
 }: PageProps<{ diakonias: Paginated<Diakonia> }>) {
+    const [filter, setFilter] = useState("semua");
+    function changeFilter(arg: string) {
+        setFilter(arg);
+        router.get(
+            route("diakonia.index"),
+            { filter: arg },
+            { preserveState: true }
+        );
+    }
     function destroy(id: number): void {
         if (confirm("Are you sure you want to delete this item?")) {
             router.delete(route("diakonia.destroy", id));
         }
     }
-
     return (
         <AuthenticatedLayout user={auth.user} title={"Diakonia"}>
             <Head title="Dashboard" />
             <div className="flex items-center">
+                <div className="relative flex-1 md:grow-0">
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        type="search"
+                        placeholder="Cari Nama"
+                        className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+                    />
+                </div>
                 <div className="ml-auto flex items-center gap-2">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -98,21 +116,38 @@ export default function Index({
                             >
                                 <ListFilter className="h-3.5 w-3.5" />
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                    Filter
+                                    Filter: {filter}
                                 </span>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuCheckboxItem checked>
-                                Active
+                            <DropdownMenuCheckboxItem
+                                checked={filter === "semua"}
+                                onCheckedChange={() => changeFilter("semua")}
+                            >
+                                Semua
                             </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem>
-                                Draft
+                            <DropdownMenuCheckboxItem
+                                checked={filter === "diserahkan"}
+                                onCheckedChange={() =>
+                                    changeFilter("diserahkan")
+                                }
+                            >
+                                Diserahkan
                             </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem>
-                                Archived
+                            <DropdownMenuCheckboxItem
+                                checked={filter === "diterima"}
+                                onCheckedChange={() => changeFilter("diterima")}
+                            >
+                                Diterima
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                                checked={filter === "ditolak"}
+                                onCheckedChange={() => changeFilter("ditolak")}
+                            >
+                                Ditolak
                             </DropdownMenuCheckboxItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -226,21 +261,22 @@ export default function Index({
                                                 <DropdownMenuLabel>
                                                     Actions
                                                 </DropdownMenuLabel>
-                                                <DropdownMenuItem>
-                                                    <Link
-                                                        href={route(
-                                                            "diakonia.edit",
-                                                            item.id
-                                                        )}
-                                                    >
-                                                        Edit
-                                                    </Link>
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        router.visit(
+                                                            route(
+                                                                "diakonia.edit",
+                                                                item.id
+                                                            )
+                                                        )
+                                                    }
+                                                >
+                                                    Edit
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
-                                                    onClick={() => {
-                                                        console.log(item.id);
-                                                        destroy(item.id);
-                                                    }}
+                                                    onClick={() =>
+                                                        destroy(item.id)
+                                                    }
                                                 >
                                                     Delete
                                                 </DropdownMenuItem>

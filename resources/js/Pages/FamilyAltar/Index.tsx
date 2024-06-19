@@ -59,8 +59,11 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/Components/ui/tooltip";
-export default function Index({ auth, familyAltars }: PageProps<{ familyAltars: Paginated<FamilyAltar> }>) {
-
+import { formatDate } from "@/lib/utilities";
+export default function Index({
+    auth,
+    familyAltars,
+}: PageProps<{ familyAltars: Paginated<FamilyAltar> }>) {
     function destroy(id: number): void {
         if (confirm("Are you sure you want to delete this item?")) {
             router.delete(route("family-altar.destroy", id));
@@ -72,33 +75,6 @@ export default function Index({ auth, familyAltars }: PageProps<{ familyAltars: 
             <Head title="Family Altar" />
             <div className="flex items-center">
                 <div className="ml-auto flex items-center gap-2">
-                    {/* <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="h-8 gap-1"
-                                >
-                                    <ListFilter className="h-3.5 w-3.5" />
-                                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                        Filter
-                                    </span>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuCheckboxItem checked>
-                                    Active
-                                </DropdownMenuCheckboxItem>
-                                <DropdownMenuCheckboxItem>
-                                    Draft
-                                </DropdownMenuCheckboxItem>
-                                <DropdownMenuCheckboxItem>
-                                    Archived
-                                </DropdownMenuCheckboxItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu> */}
                     {/* <Button
                             size="sm"
                             variant="outline"
@@ -142,14 +118,12 @@ export default function Index({ auth, familyAltars }: PageProps<{ familyAltars: 
                                     <TableCell className="font-medium">
                                         {familyAltar.name}
                                     </TableCell>
-                                    <TableCell>
-                                        {familyAltar.address}
-                                    </TableCell>
+                                    <TableCell>{familyAltar.address}</TableCell>
                                     <TableCell className="hidden md:table-cell">
                                         {familyAltar.user.name}
                                     </TableCell>
                                     <TableCell className="hidden md:table-cell">
-                                        {familyAltar.created_at}
+                                        {formatDate(familyAltar.created_at)}
                                     </TableCell>
                                     <TableCell>
                                         <DropdownMenu>
@@ -170,14 +144,25 @@ export default function Index({ auth, familyAltars }: PageProps<{ familyAltars: 
                                                     Actions
                                                 </DropdownMenuLabel>
                                                 <DropdownMenuItem>
-                                                    <Link href={route("family-altar.edit", familyAltar.id)}>Edit</Link>
+                                                    <Link
+                                                        href={route(
+                                                            "family-altar.edit",
+                                                            familyAltar.id
+                                                        )}
+                                                    >
+                                                        Edit
+                                                    </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem>
                                                     <Button
                                                         variant="outline"
                                                         color="red"
                                                         size="sm"
-                                                        onClick={() => destroy(familyAltar.id)}
+                                                        onClick={() =>
+                                                            destroy(
+                                                                familyAltar.id
+                                                            )
+                                                        }
                                                     >
                                                         Delete
                                                     </Button>

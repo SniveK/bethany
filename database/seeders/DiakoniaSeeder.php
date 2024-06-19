@@ -12,19 +12,11 @@ class DiakoniaSeeder extends Seeder
      */
     public function run(): void
     {
-        // make diakonia
-        // 'requester_first_name',
-        // 'requester_last_name',
-        // 'requester_phone_number',
-        // 'requester_birth_date',
-        // 'request_date',
-        // 'requester_help',
         \App\Models\Diakonia::create([
             'requester_first_name' => 'John',
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
             'requester_help' => [[
                 'type' => 'makanan',
@@ -43,7 +35,6 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
             'requester_help' => [[
                 'type' => 'makanan',
@@ -62,7 +53,6 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
             'requester_help' => [[
                 'type' => 'makanan',
@@ -81,7 +71,6 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
             'requester_help' => [[
                 'type' => 'makanan',
@@ -100,7 +89,6 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
             'requester_help' => [[
                 'type' => 'makanan',
@@ -119,7 +107,6 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
             'requester_help' => [[
                 'type' => 'makanan',
@@ -138,7 +125,6 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
             'requester_help' => [[
                 'type' => 'makanan',
@@ -157,7 +143,6 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
             'requester_help' => [[
                 'type' => 'makanan',
@@ -176,7 +161,6 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
             'requester_help' => [[
                 'type' => 'makanan',

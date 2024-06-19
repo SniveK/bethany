@@ -130,28 +130,14 @@ import {
     Bell,
     CircleUser,
     Home,
-    LineChart,
     Menu,
-    Package,
     Package2,
-    Search,
-    ShoppingCart,
-    Users,
     FormInput,
-    ChurchIcon,
     CircleUserRound,
     UsersRound,
 } from "lucide-react";
-
 import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/Components/ui/card";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -164,6 +150,7 @@ import { Input } from "@/Components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
 import { PropsWithChildren } from "react";
 import { Link, usePage } from "@inertiajs/react";
+import { Separator } from "@/Components/ui/separator";
 export default function AuthenticatedLayout({
     user,
     title,
@@ -181,7 +168,7 @@ export default function AuthenticatedLayout({
                         >
                             <span className="">Bethany Yestoya Malang</span>
                         </Link>
-                        {/* <Button
+                        <Button
                             variant="outline"
                             size="icon"
                             className="ml-auto h-8 w-8"
@@ -190,7 +177,7 @@ export default function AuthenticatedLayout({
                             <span className="sr-only">
                                 Toggle notifications
                             </span>
-                        </Button> */}
+                        </Button>
                     </div>
                     <div className="flex-1">
                         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
@@ -217,9 +204,6 @@ export default function AuthenticatedLayout({
                             >
                                 <FormInput className="h-4 w-4" />
                                 Diakonia
-                                {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                                    6
-                                </Badge> */}
                             </Link>
                             <Link
                                 href="/family-altar"
@@ -232,9 +216,55 @@ export default function AuthenticatedLayout({
                             >
                                 <UsersRound className="h-4 w-4" />
                                 Family Altar
-                                {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                            </Link>
+                            {/* <Link
+                                href="/family-altar"
+                                className={
+                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                    (url.startsWith("/family-altar")
+                                        ? "bg-muted"
+                                        : "text-muted-foreground")
+                                }
+                            >
+                                <UsersRound className="h-4 w-4" />
+                                Family Altar
+                                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                                     6
-                                </Badge> */}
+                                </Badge>
+                            </Link> */}
+                            
+                            {/* <Separator></Separator>
+                            <Link
+                                href=""
+                                className={
+                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primarybg-muted"
+                                }
+                            >
+                                Admin
+                            </Link>
+                            <Link
+                                href="/accounts"
+                                className={
+                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                    (url.startsWith("/o")
+                                        ? "bg-muted"
+                                        : "text-muted-foreground")
+                                }
+                            >
+                                <FormInput className="h-4 w-4" />
+                                Form Diakonia
+                            </Link>
+                            <Link
+                                href="/family-altar"
+                                className={
+                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                    (url.startsWith("/family-altar")
+                                        ? "bg-muted"
+                                        : "text-muted-foreground")
+                                }
+                            >
+                                <UsersRound className="h-4 w-4" />
+                                Family Altar
                             </Link>
                             <Link
                                 href="/accounts"
@@ -247,7 +277,7 @@ export default function AuthenticatedLayout({
                             >
                                 <CircleUserRound className="h-4 w-4" />
                                 Accounts
-                            </Link>
+                            </Link> */}
                             {/* <Link
                                 href="#"
                                 className={
@@ -425,7 +455,13 @@ export default function AuthenticatedLayout({
                             <DropdownMenuItem>Support</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>
-                                <Link href={route("logout")} method="post" as="button">Logout</Link>
+                                <Link
+                                    href={route("logout")}
+                                    method="post"
+                                    as="button"
+                                >
+                                    Logout
+                                </Link>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

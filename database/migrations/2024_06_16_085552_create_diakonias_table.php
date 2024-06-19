@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('requester_phone_number');
             $table->date('requester_birth_date');
             $table->json('requester_help');
-            //request data
-            // $table->date('request_date');
             // maker
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

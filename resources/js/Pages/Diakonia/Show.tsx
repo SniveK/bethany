@@ -22,13 +22,14 @@ export default function Show({
     auth,
     diakonia,
 }: PageProps<{ diakonia: Diakonia; links: any }>) {
+    console.log(diakonia);
     return (
         <AuthenticatedLayout user={auth.user} title={"Diakonia"}>
             <Head title="Dashboard" />
             <div className="flex ">
-                <Button>
-                    <Link href="/diakonia">Back</Link>
-                </Button>
+                <Link href="/diakonia">
+                    <Button>Back</Button>
+                </Link>
             </div>
             <Card x-chunk="dashboard-06-chunk-0">
                 <CardHeader>
@@ -79,6 +80,23 @@ export default function Show({
                             </TableRow>
                             <TableRow>
                                 <TableCell className="font-medium me-auto">
+                                    Nama Family Altar
+                                </TableCell>
+                                <TableCell className="font-medium">
+                                    {diakonia.family_altar.name}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className="font-medium me-auto">
+                                    Alamat Family Altar
+                                </TableCell>
+                                <TableCell className="font-medium">
+                                    {diakonia.family_altar.address}
+                                </TableCell>
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell className="font-medium me-auto">
                                     Status
                                 </TableCell>
                                 <TableCell className="font-medium">
@@ -107,12 +125,10 @@ export default function Show({
                                 (item: any, index: number) => (
                                     <TableRow key={index}>
                                         <TableCell className="font-medium me-auto">
-                                            {item.diakonia_type}
+                                            {item.type}
                                         </TableCell>
                                         <TableCell className="font-medium">
-                                            {formatNumberToRupiah(
-                                                item.diakonia_amount
-                                            )}
+                                            {formatNumberToRupiah(item.amount)}
                                         </TableCell>
                                         <TableCell className="font-medium">
                                             {item.notes}
@@ -128,7 +144,7 @@ export default function Show({
                                     {formatNumberToRupiah(
                                         diakonia.requester_help.reduce(
                                             (acc: any, item: any) =>
-                                                acc + item.diakonia_amount,
+                                                acc + item.amount,
                                             0
                                         )
                                     )}

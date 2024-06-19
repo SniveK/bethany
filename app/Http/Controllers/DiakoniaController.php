@@ -15,6 +15,10 @@ class DiakoniaController extends Controller
      */
     public function index(Request $request): Response
     {
+        if ($request->filter !== 'semua' && $request->filter !== null) {
+            $diakonias = Diakonia::where('status', $request->filter)->latest()->paginate(50);
+            return Inertia::render('Diakonia/Index', ["diakonias" => $diakonias]);
+        }
         $diakonias = Diakonia::latest()->paginate(50);
         return Inertia::render('Diakonia/Index', ["diakonias" => $diakonias]);
     }
@@ -65,7 +69,7 @@ class DiakoniaController extends Controller
     public function show(string $id)
     {
         $diakonia = Diakonia::find($id);
-        return Inertia::render('Diakonia/Show', ["diakonia" => $diakonia]);
+        return Inertia::render('Diakonia/Show', ["diakonia" => $diakonia->load('familyAltar.user')]);
     }
 
     /**
@@ -73,7 +77,7 @@ class DiakoniaController extends Controller
      */
     public function edit(Diakonia $diakonium)
     {
-        $diakonium->requester_help = json_decode($diakonium->requester_help);
+        // $diakonium->requester_help = json_decode($diakonium->requester_help);
         return Inertia::render('Diakonia/CreateUpdate', ["mode" => "update", "diakonia" => $diakonium->load('familyAltar')]);
     }
 
