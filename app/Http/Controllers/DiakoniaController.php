@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Diakonia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,8 +15,8 @@ class DiakoniaController extends Controller
      */
     public function index(Request $request): Response
     {
-        $data = Diakonia::paginate(1);
-        return Inertia::render('Diakonia/Index', ["data" => $data]);
+        $db_data = Diakonia::paginate(50);
+        return Inertia::render('Diakonia/Index', ["db_data" => $db_data]);
     }
 
     /**
@@ -23,7 +24,7 @@ class DiakoniaController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Diakonia/CreateUpdate', ["mode" => "create"]);
+        return Inertia::render('Diakonia/Form', ["mode" => "create"]);
     }
 
     /**
@@ -31,7 +32,31 @@ class DiakoniaController extends Controller
      */
     public function store(Request $request)
     {
-        // return Inertia::render('Diakonia/Create', []);
+        $request->validate([
+            'requester_first_name' => 'required|string',
+            'requester_last_name' => 'required |string',
+            'requester_phone_number' => 'required |string',
+            'requester_birth_date' => 'required|date',
+            // 'request_date' => 'required|date',
+            // 'status' => 'required|string',
+            'diakonia' => 'required|array',
+            'diakonia.*.diakonia_type' => 'required|string',
+            'diakonia.*.diakonia_amount' => 'required|integer',
+            'diakonia.*.notes' => 'required|string',
+        ]);
+
+        $diakonia = new Diakonia();
+        $diakonia->requester_first_name = $request->requester_first_name;
+        $diakonia->requester_last_name = $request->requester_last_name;
+        $diakonia->requester_phone_number = $request->requester_phone_number;
+        $diakonia->requester_birth_date = $request->requester_birth_date;
+        $diakonia->status = "diserahkan";
+        $diakonia->diakonia = $request->diakonia;
+        // $diakonia->user_id = Auth::user()->id;
+        $diakonia->user_id = 1;
+        $diakonia->family_altar_id = 1;
+        $diakonia->save();
+        return redirect()->route('diakonia.index')->with('toastContent', 'Diakonia created successfully.');
     }
 
     /**
@@ -39,7 +64,8 @@ class DiakoniaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = Diakonia::find($id);
+        return Inertia::render('Diakonia/Show', ["data" => $data]);
     }
 
     /**
@@ -47,8 +73,8 @@ class DiakoniaController extends Controller
      */
     public function edit(string $id)
     {
-        $diakonia = Diakonia::find($id);
-        return Inertia::render('Diakonia/CreateUpdate', ["mode" => "update", "data" => $diakonia]);
+        $db_data = Diakonia::find($id);
+        return Inertia::render('Diakonia/Form', ["mode" => "edit", "db_data" => $db_data]);
         //
     }
 
@@ -57,7 +83,32 @@ class DiakoniaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'requester_first_name' => 'required|string',
+            'requester_last_name' => 'required |string',
+            'requester_phone_number' => 'required |string',
+            'requester_birth_date' => 'required|date',
+            // 'request_date' => 'required|date',
+            // 'status' => 'required|string',
+            'diakonia' => 'required|array',
+            'diakonia.*.diakonia_type' => 'required|string',
+            'diakonia.*.diakonia_amount' => 'required|integer',
+            'diakonia.*.notes' => 'required|string',
+        ]);
+
+        $diakonia = Diakonia::find($id);
+        $diakonia->requester_first_name = $request->requester_first_name;
+        $diakonia->requester_last_name = $request->requester_last_name;
+        $diakonia->requester_phone_number = $request->requester_phone_number;
+        $diakonia->requester_birth_date = $request->requester_birth_date;
+        $diakonia->status = "diserahkan";
+        $diakonia->diakonia = $request->diakonia;
+        // $diakonia->user_id = Auth::user()->id;
+        $diakonia->user_id = 1;
+        $diakonia->family_altar_id = 1;
+        $diakonia->save();
+        return redirect()->route('diakonia.index')->with('toastContent', 'Diakonia created successfully.');
+        return redirect('diakonia.index');
     }
 
     /**
@@ -65,6 +116,7 @@ class DiakoniaController extends Controller
      */
     public function destroy(string $id)
     {
+        return redirect('diakonia.index');
         //
     }
 }

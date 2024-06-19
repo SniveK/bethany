@@ -164,11 +164,26 @@ import { Input } from "@/Components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
 import { PropsWithChildren } from "react";
 import { Link, usePage } from "@inertiajs/react";
+// import { toast } from "sonner";
+// import { Toaster } from "@/Components/ui/sonner";
 export default function AuthenticatedLayout({
     user,
     title,
     children,
-}: PropsWithChildren<{ user: any; title?: String }>) {
+    // toastContent,
+}: PropsWithChildren<{ user: any; title?: String; 
+    // toastContent?: String 
+
+}>) {
+    // console.log("toastContent", toastContent);
+    // if (toastContent) {
+    //     toast(toastContent, {
+    //         action: {
+    //             label: "Close",
+    //             onClick: null as any,
+    //         },
+    //     });
+    // }
     const { url, component } = usePage();
     return (
         <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -237,7 +252,7 @@ export default function AuthenticatedLayout({
                                 </Badge> */}
                             </Link>
                             <Link
-                                href="/accounts"
+                                href="/account"
                                 className={
                                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
                                     (url.startsWith("/o")
@@ -359,7 +374,7 @@ export default function AuthenticatedLayout({
                                 </Badge> */}
                                 </Link>
                                 <Link
-                                    href="/accounts"
+                                    href="/account"
                                     className={
                                         "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground " +
                                         (url.startsWith("/o")
@@ -428,6 +443,7 @@ export default function AuthenticatedLayout({
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </header>
+                {/* <Toaster /> */}
                 <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                     {/* <div className="flex items-center">
                         <h1 className="text-lg font-semibold md:text-2xl">

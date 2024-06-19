@@ -82,22 +82,20 @@ import {
     MenubarShortcut,
     MenubarTrigger,
 } from "@/Components/ui/menubar";
-import TablePagination from "@/Components/TablePagination";
+const slug = "account";
+const title = "Account";
 export default function Index({
     auth,
-    db_data,
+    data,
 }: PageProps<{
-    db_data: any;
+    data: any;
+    links: any;
 }>) {
+    console.log(data);
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            title={"Diakonia"}
-            // toastContent={toastContent}
-        >
-            <Head title="Dashboard" />
+        <AuthenticatedLayout user={auth.user} title={title}>
+            <Head title={title} />
             <div className="flex items-center">
-                {/* <div className="flex bg-gray-200 gap-2 rounded-xl"></div> */}
                 <div className="ml-auto flex items-center gap-2">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -136,92 +134,60 @@ export default function Index({
                                 Export
                             </span>
                         </Button> */}
-                    <Button size="sm" className="h-8 gap-1">
+                    {/* <Button size="sm" className="h-8 gap-1">
                         <PlusCircle className="h-3.5 w-3.5" />
                         <Link
                             className="sr-only sm:not-sr-only sm:whitespace-nowrap"
-                            href="/diakonia/create"
+                            href={slug + "/create"}
                         >
                             Buat Form Diakonia
                         </Link>
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
             <Card x-chunk="dashboard-06-chunk-0">
                 <CardHeader>
-                    <CardTitle>Form Diakonia</CardTitle>
+                    <CardTitle>Accounts</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Table>
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Name</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead className="hidden md:table-cell">
-                                    Jumlah
-                                </TableHead>
+                                <TableHead>Email</TableHead>
                                 <TableHead className="hidden md:table-cell">
                                     Created at
                                 </TableHead>
-                                <TableHead className="text-right">
-                                    Actions
-                                </TableHead>
+                                <TableHead>Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {db_data.data.map((item: any) => (
+                            {data.data.map((item: any) => (
                                 <TableRow>
                                     <TableCell
                                         className="font-medium"
                                         onClick={() => {
-                                            router.visit(
-                                                "/diakonia/" + item.id
-                                            );
+                                            router.visit(slug + "/" + item.id);
                                         }}
                                     >
-                                        {item.requester_first_name +
-                                            " " +
-                                            item.requester_last_name}
+                                        {item.name}
                                     </TableCell>
                                     <TableCell
                                         onClick={() => {
-                                            router.visit(
-                                                "/diakonia/" + item.id
-                                            );
+                                            router.visit(slug + "/" + item.id);
                                         }}
                                     >
-                                        <Badge variant="outline">
-                                            {item.status}
-                                        </Badge>
+                                        {item.email}
                                     </TableCell>
                                     <TableCell
                                         className="hidden md:table-cell"
                                         onClick={() => {
-                                            router.visit(
-                                                "/diakonia/" + item.id
-                                            );
-                                        }}
-                                    >
-                                        {formatNumberToRupiah(
-                                            item.diakonia.reduce(
-                                                (total: any, helpItem: any) =>
-                                                    total +
-                                                    helpItem.diakonia_amount,
-                                                0
-                                            )
-                                        )}
-                                    </TableCell>
-                                    <TableCell
-                                        className="hidden md:table-cell"
-                                        onClick={() => {
-                                            router.visit(
-                                                "/diakonia/" + item.id
-                                            );
+                                            router.visit(slug + "/" + item.id);
                                         }}
                                     >
                                         {formatDate(item.created_at)}
                                     </TableCell>
-                                    <TableCell className="text-right">
+                                    <TableCell>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <Button
@@ -242,7 +208,8 @@ export default function Index({
                                                 <DropdownMenuItem
                                                     onClick={() =>
                                                         router.visit(
-                                                            "/diakonia/" +
+                                                            slug +
+                                                                "/" +
                                                                 item.id +
                                                                 "/edit"
                                                         )
@@ -269,34 +236,36 @@ export default function Index({
                     <div className="flex gap-2">
                         {/* <Button>Previous</Button>
                                 <Button>Next</Button> */}
-                        {/* <Pagination>
+                        <Pagination>
                             <PaginationContent>
                                 <PaginationItem>
                                     <PaginationPrevious
-                                        href={db_data.links[0].url}
+                                        href={data.links[0].url}
                                     />
                                 </PaginationItem>
                                 <PaginationItem>
+                                    {/* <PaginationLink href="#">
+                                                1
+                                            </PaginationLink> */}
                                     <Input
                                         className="w-[40px] me-2"
-                                        defaultValue={db_data.current_page}
+                                        defaultValue={data.current_page}
+                                        // value={data.current_page}
                                     ></Input>
                                 </PaginationItem>
                                 <PaginationItem>
                                     <span className="me-2">of</span>
-                                    {db_data.last_page}
+                                    {data.last_page}
                                 </PaginationItem>
                                 <PaginationItem>
                                     <PaginationNext
                                         href={
-                                            db_data.links[db_data.last_page + 1]
-                                                .url
+                                            data.links[data.last_page + 1].url
                                         }
                                     />
                                 </PaginationItem>
                             </PaginationContent>
-                        </Pagination> */}
-                        <TablePagination db_data={db_data} />
+                        </Pagination>
                     </div>
                 </CardFooter>
             </Card>

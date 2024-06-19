@@ -17,21 +17,21 @@ class DiakoniaSeeder extends Seeder
         // 'requester_last_name',
         // 'requester_phone_number',
         // 'requester_birth_date',
-        // 'request_date',
-        // 'requester_help',
+        // 'diakonia',
         \App\Models\Diakonia::create([
             'requester_first_name' => 'John',
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
+            'diakonia' => [[
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ], [
-                'type' => 'makanan',
-                'amount' => 100000,
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -41,14 +41,15 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
+            'diakonia' => [[
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ], [
-                'type' => 'makanan',
-                'amount' => 100000,
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -58,14 +59,15 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
+            'diakonia' => [[
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ], [
-                'type' => 'makanan',
-                'amount' => 100000,
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -75,14 +77,15 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
+            'diakonia' => [[
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ], [
-                'type' => 'makanan',
-                'amount' => 100000,
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -92,14 +95,15 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
+            'diakonia' => [[
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ], [
-                'type' => 'makanan',
-                'amount' => 100000,
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -109,14 +113,15 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
+            'diakonia' => [[
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ], [
-                'type' => 'makanan',
-                'amount' => 100000,
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -126,14 +131,15 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
+            'diakonia' => [[
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ], [
-                'type' => 'makanan',
-                'amount' => 100000,
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -143,14 +149,15 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
+            'diakonia' => [[
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ], [
-                'type' => 'makanan',
-                'amount' => 100000,
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,
@@ -160,14 +167,15 @@ class DiakoniaSeeder extends Seeder
             'requester_last_name' => 'Doe',
             'requester_phone_number' => '1234567890',
             'requester_birth_date' => '2024-06-15',
-            'request_date' => '2024-06-15',
             'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
+            'diakonia' => [[
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ], [
-                'type' => 'makanan',
-                'amount' => 100000,
+                'diakonia_type' => 'spp',
+                'diakonia_amount' => 100000,
+                'notes' => 'notes 1'
             ]],
             'user_id' => 1,
             'family_altar_id' => 1,

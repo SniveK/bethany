@@ -1,50 +1,10 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { PageProps } from "@/types";
-import {
-    File,
-    Home,
-    LineChart,
-    ListFilter,
-    MoreHorizontal,
-    Package,
-    Package2,
-    PanelLeft,
-    PlusCircle,
-    Search,
-    Settings,
-    ShoppingCart,
-    Users2,
-} from "lucide-react";
-import { Badge } from "@/Components/ui/badge";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/Components/ui/breadcrumb";
+import { PlusCircle } from "lucide-react";
 import { Button } from "@/Components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/Components/ui/card";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/Components/ui/dropdown-menu";
+import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import { Input } from "@/Components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
 import {
     Table,
     TableBody,
@@ -52,19 +12,8 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-    TableCaption,
-    TableFooter,
 } from "@/Components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/Components/ui/tooltip";
-import { useState } from "react";
-import { router } from "@inertiajs/react";
 import { Label } from "@/Components/ui/label";
-import { format, set } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/Components/ui/calendar";
@@ -82,13 +31,32 @@ import {
 } from "@/Components/ui/select";
 import { formatStringToRupiah } from "@/lib/utilities";
 import { Textarea } from "@/Components/ui/textarea";
-export default function Create({ auth }: PageProps) {
-    const [values, setValues] = useState({
-        first_name: "",
-        last_name: "",
-        email: "",
-        phone_number: "",
-        birth_date: Date.now(),
+import { format } from "date-fns";
+export default function Create({
+    auth,
+    db_data,
+    mode,
+}: PageProps<{ db_data: any; mode: any }>) {
+    // console.log(data);
+    // var formData = {
+    //     requester_first_name: "",
+    //     requester_last_name: "",
+    //     requester_phone_number: "",
+    //     requester_birth_date: Date.now(),
+    //     diakonia: [
+    //         {
+    //             diakonia_type: "",
+    //             diakonia_amount: 0,
+    //             notes: "",
+    //         },
+    //     ],
+    //     FA: "",
+    // };
+    var formData = {
+        requester_first_name: "",
+        requester_last_name: "",
+        requester_phone_number: "",
+        requester_birth_date: Date.now(),
         diakonia: [
             {
                 diakonia_type: "",
@@ -97,19 +65,30 @@ export default function Create({ auth }: PageProps) {
             },
         ],
         FA: "",
-    });
-    console.log(values);
+    };
+    console.log(db_data);
+    if (mode === "edit") {
+        formData = db_data;
+    }
+    const { data, setData, post, put, processing, errors, reset, progress } =
+        useForm(formData);
+    console.log(data);
     function handleChange(e: any) {
         const key = e.target.id;
         const value = e.target.value;
-        setValues((values) => ({
-            ...values,
+        setData((data) => ({
+            ...data,
             [key]: value,
         }));
     }
     function handleSubmit(e: any) {
         e.preventDefault();
-        router.post("/diakonia", values);
+        if (mode === "edit") {
+            console.log("edit");
+            put(route("diakonia.update", db_data.id));
+            return;
+        }
+        post(route("diakonia.store"));
     }
 
     function getNumberFromFormattedString(str: string) {
@@ -122,10 +101,10 @@ export default function Create({ auth }: PageProps) {
         return number;
     }
     function addBantuan() {
-        setValues((values) => ({
-            ...values,
+        setData((data) => ({
+            ...data,
             diakonia: [
-                ...values.diakonia,
+                ...data.diakonia,
                 {
                     diakonia_type: "",
                     diakonia_amount: 0,
@@ -135,11 +114,12 @@ export default function Create({ auth }: PageProps) {
         }));
     }
     function removeBantuan(index: number) {
-        setValues((values) => ({
-            ...values,
-            diakonia: values.diakonia.filter((_, i) => i !== index),
+        setData((data) => ({
+            ...data,
+            diakonia: data.diakonia.filter((_, i) => i !== index),
         }));
     }
+    console.log(errors);
     return (
         <AuthenticatedLayout user={auth.user} title={"Diakonia"}>
             <Head title="Dashboard" />
@@ -151,35 +131,48 @@ export default function Create({ auth }: PageProps) {
             <form onSubmit={handleSubmit} className="flex gap-4 flex-col">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Informasi Penerima Diakonia</CardTitle>
+                        <CardTitle>Informasi Penerima Diakonia {}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <Label htmlFor="first_name">Nama Depan</Label>
+                                <Label htmlFor="requester_first_name">
+                                    Nama Depan
+                                </Label>
                                 <Input
-                                    id="first_name"
-                                    value={values.first_name}
+                                    id="requester_first_name"
+                                    value={data.requester_first_name}
                                     onChange={handleChange}
                                 />
+                                {errors.requester_first_name && (
+                                    <div>{errors.requester_first_name}</div>
+                                )}
                             </div>
                             <div>
-                                <Label htmlFor="last_name">Nama Belakang</Label>
+                                <Label htmlFor="requester_last_name">
+                                    Nama Belakang
+                                </Label>
                                 <Input
-                                    id="last_name"
-                                    value={values.last_name}
+                                    id="requester_last_name"
+                                    value={data.requester_last_name}
                                     onChange={handleChange}
                                 />
+                                {errors.requester_last_name && (
+                                    <div>{errors.requester_last_name}</div>
+                                )}
                             </div>
                             <div>
-                                <Label htmlFor="phone_number">
+                                <Label htmlFor="requester_phone_number">
                                     Nomor Telpon
                                 </Label>
                                 <Input
-                                    id="phone_number"
-                                    value={values.phone_number}
+                                    id="requester_phone_number"
+                                    value={data.requester_phone_number}
                                     onChange={handleChange}
                                 />
+                                {errors.requester_phone_number && (
+                                    <div>{errors.requester_phone_number}</div>
+                                )}
                             </div>
                             <div className="flex flex-col gap-2">
                                 <Label>Tanggal Lahir</Label>
@@ -189,13 +182,16 @@ export default function Create({ auth }: PageProps) {
                                             variant={"outline"}
                                             className={cn(
                                                 "justify-start text-left font-normal",
-                                                !values.birth_date &&
+                                                !data.requester_birth_date &&
                                                     "text-muted-foreground"
                                             )}
                                         >
                                             <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {values.birth_date ? (
-                                                format(values.birth_date, "PPP")
+                                            {data.requester_birth_date ? (
+                                                format(
+                                                    data.requester_birth_date,
+                                                    "PPP"
+                                                )
                                             ) : (
                                                 <span>Pick a date</span>
                                             )}
@@ -203,17 +199,24 @@ export default function Create({ auth }: PageProps) {
                                     </PopoverTrigger>
                                     <PopoverContent className="w-auto p-0">
                                         <Calendar
+                                            selected={
+                                                data.requester_birth_date as any
+                                            }
                                             mode="single"
                                             onSelect={(e) => {
-                                                setValues((values) => ({
-                                                    ...values,
-                                                    birth_date: e as any,
+                                                setData((data) => ({
+                                                    ...data,
+                                                    requester_birth_date:
+                                                        e as any,
                                                 }));
                                             }}
                                             initialFocus
                                         />
                                     </PopoverContent>
                                 </Popover>
+                                {errors.requester_birth_date && (
+                                    <div>{errors.requester_birth_date}</div>
+                                )}
                             </div>
                         </div>
                     </CardContent>
@@ -250,7 +253,7 @@ export default function Create({ auth }: PageProps) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {values.diakonia.map((diakonia, index) => (
+                                {data.diakonia.map((diakonia, index) => (
                                     <TableRow>
                                         <TableCell className="font-medium">
                                             {index + 1}
@@ -258,10 +261,10 @@ export default function Create({ auth }: PageProps) {
                                         <TableCell>
                                             <Select
                                                 onValueChange={(value) => {
-                                                    setValues((values) => ({
-                                                        ...values,
+                                                    setData((data) => ({
+                                                        ...data,
                                                         diakonia:
-                                                            values.diakonia.map(
+                                                            data.diakonia.map(
                                                                 (d, i) => {
                                                                     if (
                                                                         i ===
@@ -323,10 +326,10 @@ export default function Create({ auth }: PageProps) {
                                                         getNumberFromFormattedString(
                                                             value
                                                         );
-                                                    setValues((values) => ({
-                                                        ...values,
+                                                    setData((data) => ({
+                                                        ...data,
                                                         diakonia:
-                                                            values.diakonia.map(
+                                                            data.diakonia.map(
                                                                 (d, i) => {
                                                                     if (
                                                                         i ===
@@ -349,10 +352,10 @@ export default function Create({ auth }: PageProps) {
                                             <Textarea
                                                 onChange={(e) => {
                                                     let value = e.target.value;
-                                                    setValues((values) => ({
-                                                        ...values,
+                                                    setData((data) => ({
+                                                        ...data,
                                                         diakonia:
-                                                            values.diakonia.map(
+                                                            data.diakonia.map(
                                                                 (d, i) => {
                                                                     if (
                                                                         i ===

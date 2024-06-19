@@ -20,7 +20,7 @@ class Diakonia extends Model
         'requester_phone_number',
         'requester_birth_date',
         'request_date',
-        'requester_help',
+        'diakonia',
     ];
 
     /**
@@ -41,6 +41,6 @@ class Diakonia extends Model
     protected $casts = [
         // 'email_verified_at' => 'datetime',
         // 'password' => 'hashed',
-        'requester_help' => 'array',
+        'diakonia' => 'array',
     ];
 }
