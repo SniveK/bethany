@@ -54,6 +54,7 @@ import {
     TableRow,
 } from "@/Components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
+import TablePagination from '../../Components/TablePagination';
 import {
     Tooltip,
     TooltipContent,
@@ -76,9 +77,7 @@ import {
 export default function Index({
     auth,
     diakonias,
-    links,
-}: PageProps<{ diakonias: Paginated<Diakonia>; links: any }>) {
-
+}: PageProps<{ diakonias: Paginated<Diakonia>}>) {
     function destroy(id: number): void {
         if (confirm("Are you sure you want to delete this item?")) {
             router.delete(route("diakonia.destroy", id));
@@ -221,14 +220,25 @@ export default function Index({
                                                             Actions
                                                         </DropdownMenuLabel>
                                                         <DropdownMenuItem>
-                                                            <Link href={route('diakonia.edit', item.id)}>Edit</Link>
+                                                            <Link
+                                                                href={route(
+                                                                    "diakonia.edit",
+                                                                    item.id
+                                                                )}
+                                                            >
+                                                                Edit
+                                                            </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem>
                                                             <Button
                                                                 variant="outline"
                                                                 color="red"
                                                                 size="sm"
-                                                                onClick={() => destroy(item.id)}
+                                                                onClick={() =>
+                                                                    destroy(
+                                                                        item.id
+                                                                    )
+                                                                }
                                                             >
                                                                 Delete
                                                             </Button>
@@ -249,7 +259,7 @@ export default function Index({
                             <div className="flex gap-2">
                                 {/* <Button>Previous</Button>
                                 <Button>Next</Button> */}
-                                <Pagination>
+                                {/* <Pagination>
                                     <PaginationContent>
                                         <PaginationItem>
                                             <PaginationPrevious
@@ -257,14 +267,11 @@ export default function Index({
                                             />
                                         </PaginationItem>
                                         <PaginationItem>
-                                            {/* <PaginationLink href="#">
-                                                1
-                                            </PaginationLink> */}
                                             <Input
-                                                type="number"
                                                 className="w-[40px] me-2"
-                                                defaultValue={diakonias.current_page}
-                                            // value={data.current_page}
+                                                defaultValue={
+                                                    diakonias.current_page
+                                                }
                                             ></Input>
                                         </PaginationItem>
                                         <PaginationItem>
@@ -272,10 +279,13 @@ export default function Index({
                                             {diakonias.last_page}
                                         </PaginationItem>
                                         <PaginationItem>
-                                            <PaginationNext href={diakonias.next_page_url} />
+                                            <PaginationNext
+                                                href={diakonias.next_page_url}
+                                            />
                                         </PaginationItem>
                                     </PaginationContent>
-                                </Pagination>
+                                </Pagination> */}
+                                <TablePagination db_data={diakonias}/>
                             </div>
                         </CardFooter>
                     </Card>

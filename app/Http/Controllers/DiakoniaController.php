@@ -15,7 +15,7 @@ class DiakoniaController extends Controller
      */
     public function index(Request $request): Response
     {
-        $diakonias = Diakonia::latest()->paginate(4);
+        $diakonias = Diakonia::latest()->paginate(50);
         foreach ($diakonias as $diakonia) {
             $diakonia->requester_help = json_decode($diakonia->requester_help);
         }
