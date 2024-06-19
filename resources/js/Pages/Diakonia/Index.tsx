@@ -73,15 +73,6 @@ import {
     formatNumberToRupiah,
     formatStringToRupiah,
 } from "@/lib/utilities";
-import {
-    Menubar,
-    MenubarContent,
-    MenubarItem,
-    MenubarMenu,
-    MenubarSeparator,
-    MenubarShortcut,
-    MenubarTrigger,
-} from "@/Components/ui/menubar";
 import TablePagination from "@/Components/TablePagination";
 export default function Index({
     auth,
@@ -93,11 +84,9 @@ export default function Index({
         <AuthenticatedLayout
             user={auth.user}
             title={"Diakonia"}
-            // toastContent={toastContent}
         >
             <Head title="Dashboard" />
             <div className="flex items-center">
-                {/* <div className="flex bg-gray-200 gap-2 rounded-xl"></div> */}
                 <div className="ml-auto flex items-center gap-2">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -169,7 +158,7 @@ export default function Index({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {db_data.data.map((item: any) => (
+                            {db_data?.data?.map((item: any) => (
                                 <TableRow>
                                     <TableCell
                                         className="font-medium"
@@ -267,35 +256,6 @@ export default function Index({
                                 <strong>32</strong> products */}
                     </div>
                     <div className="flex gap-2">
-                        {/* <Button>Previous</Button>
-                                <Button>Next</Button> */}
-                        {/* <Pagination>
-                            <PaginationContent>
-                                <PaginationItem>
-                                    <PaginationPrevious
-                                        href={db_data.links[0].url}
-                                    />
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <Input
-                                        className="w-[40px] me-2"
-                                        defaultValue={db_data.current_page}
-                                    ></Input>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <span className="me-2">of</span>
-                                    {db_data.last_page}
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationNext
-                                        href={
-                                            db_data.links[db_data.last_page + 1]
-                                                .url
-                                        }
-                                    />
-                                </PaginationItem>
-                            </PaginationContent>
-                        </Pagination> */}
                         <TablePagination db_data={db_data} />
                     </div>
                 </CardFooter>

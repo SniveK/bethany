@@ -52,8 +52,8 @@ class DiakoniaController extends Controller
         $diakonia->requester_birth_date = $request->requester_birth_date;
         $diakonia->status = "diserahkan";
         $diakonia->diakonia = $request->diakonia;
-        // $diakonia->user_id = Auth::user()->id;
-        $diakonia->user_id = 1;
+        $diakonia->user_id = auth()->user()->id;
+        // $diakonia->user_id = 1;
         $diakonia->family_altar_id = 1;
         $diakonia->save();
         return redirect()->route('diakonia.index')->with('toastContent', 'Diakonia created successfully.');
