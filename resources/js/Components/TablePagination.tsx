@@ -11,6 +11,7 @@ import { router } from "@inertiajs/react";
 
 export default function TablePagination(data: any) {
     const db_data = data.db_data;
+    console.log(db_data.links);
     const [page, setPage] = useState(db_data.current_page);
     function changePage(page: string) {
         var pageNum = parseInt(page);
@@ -24,7 +25,7 @@ export default function TablePagination(data: any) {
         setPage(pageNum);
     }
     function changePageUrl() {
-        router.visit(db_data.links);
+        router.visit(db_data.links[page].url);
     }
     return (
         <Pagination>

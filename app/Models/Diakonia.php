@@ -27,7 +27,14 @@ class Diakonia extends Model
         'user_id',
         'family_altar_id',
     ];
-
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'requester_help' => 'array',
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);
