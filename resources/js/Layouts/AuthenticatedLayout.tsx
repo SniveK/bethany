@@ -217,6 +217,30 @@ export default function AuthenticatedLayout({
                                 <UsersRound className="h-4 w-4" />
                                 Family Altar
                             </Link>
+                            <Link
+                                href="/family-altar"
+                                className={
+                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                    (url.startsWith("/family-altar")
+                                        ? "bg-muted"
+                                        : "text-muted-foreground")
+                                }
+                            >
+                                <UsersRound className="h-4 w-4" />
+                                Survey
+                            </Link>
+                            <Link
+                                href="/account"
+                                className={
+                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                    (url.startsWith("/o")
+                                        ? "bg-muted"
+                                        : "text-muted-foreground")
+                                }
+                            >
+                                <CircleUserRound className="h-4 w-4" />
+                                Accounts
+                            </Link>
                             {/* <Link
                                 href="/family-altar"
                                 className={
@@ -232,7 +256,7 @@ export default function AuthenticatedLayout({
                                     6
                                 </Badge>
                             </Link> */}
-                            
+
                             {/* <Separator></Separator>
                             <Link
                                 href=""

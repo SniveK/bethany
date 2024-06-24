@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
-import { FamilyAltar, PageProps, Paginated } from "@/types";
+import { PageProps, Paginated } from "@/types";
 import {
     File,
     Home,
@@ -60,10 +60,13 @@ import {
     TooltipTrigger,
 } from "@/Components/ui/tooltip";
 import { formatDate } from "@/lib/utilities";
+import TablePagination from "@/Components/TablePagination";
+const SLUG = "cccount";
+const PAGETITLE = "Accounts";
 export default function Index({
     auth,
-    familyAltars,
-}: PageProps<{ familyAltars: Paginated<FamilyAltar> }>) {
+    accounts,
+}: PageProps<{ accounts: Paginated<any> }>) {
     function destroy(id: number): void {
         if (confirm("Are you sure you want to delete this item?")) {
             router.delete(route("family-altar.destroy", id));
@@ -71,8 +74,8 @@ export default function Index({
     }
 
     return (
-        <AuthenticatedLayout user={auth.user} title={"Family Altar"}>
-            <Head title="Family Altar" />
+        <AuthenticatedLayout user={auth.user} title={PAGETITLE}>
+            <Head title={PAGETITLE} />
             <div className="flex items-center">
                 <div className="ml-auto flex items-center gap-2">
                     {/* <Button
@@ -89,9 +92,9 @@ export default function Index({
                         <PlusCircle className="h-3.5 w-3.5" />
                         <Link
                             className="sm:whitespace-nowrap"
-                            href="/family-altar/create"
+                            href="/account/create"
                         >
-                            Tambah Family Altar
+                            Tambah {PAGETITLE}
                         </Link>
                     </Button>
                 </div>
@@ -102,28 +105,85 @@ export default function Index({
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Name</TableHead>
-                                <TableHead>Address</TableHead>
+                                <TableHead>Alamat</TableHead>
+                                <TableHead>Nomor Telpon</TableHead>
                                 <TableHead className="hidden md:table-cell">
-                                    Ketua
+                                    
                                 </TableHead>
-                                <TableHead className="hidden md:table-cell">
+                                {/* <TableHead className="hidden md:table-cell">
                                     Dibuat Tanggal
-                                </TableHead>
+                                </TableHead> */}
                                 <TableHead>Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {familyAltars.data?.map((familyAltar) => (
-                                <TableRow key={familyAltar.id}>
+                            <TableRow>
+                                <TableCell className="font-medium">
+                                    John Smith
+                                </TableCell>
+                                <TableCell>
+                                    <Badge variant="default">Admin</Badge>
+                                </TableCell>
+                                <TableCell>08121313</TableCell>
+                                <TableCell className="hidden md:table-cell">
+                                    Email@email.com
+                                </TableCell>
+                                <TableCell className="hidden md:table-cell">
+                                    Jl sdfljasdfj
+                                </TableCell>
+                                {/* <TableCell className="hidden md:table-cell">
+                                    {Date.now().toLocaleString()}
+                                </TableCell> */}
+                                <TableCell>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                aria-haspopup="true"
+                                                size="icon"
+                                                variant="ghost"
+                                            >
+                                                <MoreHorizontal className="h-4 w-4" />
+                                                <span className="sr-only">
+                                                    Toggle menu
+                                                </span>
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuLabel>
+                                                Actions
+                                            </DropdownMenuLabel>
+                                            <DropdownMenuItem>
+                                                <Link
+                                                    // href={route(
+                                                    //     "account.edit"
+                                                    //     // account.id
+                                                    // )}
+                                                >
+                                                    Edit
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem
+                                                // onClick={() => destroy(1)}
+                                            >
+                                                Delete
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                        {/* <TableBody>
+                            {accounts.data?.map((account) => (
+                                <TableRow key={account.id}>
                                     <TableCell className="font-medium">
-                                        {familyAltar.name}
+                                        {account.name}
                                     </TableCell>
-                                    <TableCell>{familyAltar.address}</TableCell>
+                                    <TableCell>{account.address}</TableCell>
                                     <TableCell className="hidden md:table-cell">
-                                        {familyAltar.user.name}
+                                        {account.user.name}
                                     </TableCell>
                                     <TableCell className="hidden md:table-cell">
-                                        {formatDate(familyAltar.created_at)}
+                                        {formatDate(account.created_at)}
                                     </TableCell>
                                     <TableCell>
                                         <DropdownMenu>
@@ -147,7 +207,7 @@ export default function Index({
                                                     <Link
                                                         href={route(
                                                             "family-altar.edit",
-                                                            familyAltar.id
+                                                            account.id
                                                         )}
                                                     >
                                                         Edit
@@ -155,7 +215,7 @@ export default function Index({
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
                                                     onClick={() =>
-                                                        destroy(familyAltar.id)
+                                                        destroy(account.id)
                                                     }
                                                 >
                                                     Delete
@@ -165,58 +225,16 @@ export default function Index({
                                     </TableCell>
                                 </TableRow>
                             ))}
-                            {/* <TableRow>
-                                <TableCell className="font-medium">
-                                    Laser Lemonade Machine
-                                </TableCell>
-                                <TableCell>
-                                    <Badge variant="outline">Diserahkan</Badge>
-                                </TableCell>
-                                <TableCell className="hidden md:table-cell">
-                                    RP. 100.000
-                                </TableCell>
-                                <TableCell className="hidden md:table-cell">
-                                    2023-07-12 10:42 AM
-                                </TableCell>
-                                <TableCell>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button
-                                                aria-haspopup="true"
-                                                size="icon"
-                                                variant="ghost"
-                                            >
-                                                <MoreHorizontal className="h-4 w-4" />
-                                                <span className="sr-only">
-                                                    Toggle menu
-                                                </span>
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                            <DropdownMenuLabel>
-                                                Actions
-                                            </DropdownMenuLabel>
-                                            <DropdownMenuItem>
-                                                Edit
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem>
-                                                Delete
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </TableCell>
-                            </TableRow> */}
-                        </TableBody>
+                        </TableBody> */}
                     </Table>
                 </CardContent>
                 <CardFooter className="justify-between">
-                    <div className="text-xs text-muted-foreground">
+                    {/* <div className="text-xs text-muted-foreground">
                         Showing <strong>1-10</strong> of <strong>32</strong>{" "}
                         forms
-                    </div>
+                    </div> */}
                     <div className="flex gap-2">
-                        <Button>Previous</Button>
-                        <Button>Next</Button>
+                        <TablePagination data={accounts} />
                     </div>
                 </CardFooter>
             </Card>

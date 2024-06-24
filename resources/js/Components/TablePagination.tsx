@@ -10,6 +10,7 @@ import {
 import { router } from "@inertiajs/react";
 
 export default function TablePagination(data: any) {
+    if (data == null || data.db_data == null) return null;
     const db_data = data.db_data;
     console.log(db_data.links);
     const [page, setPage] = useState(db_data.current_page);
