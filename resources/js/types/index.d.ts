@@ -3,6 +3,21 @@ export interface User {
     name: string;
     email: string;
     email_verified_at: string;
+    profile: Profile;
+    roles: Role[];
+}
+
+export interface Profile {
+    id: number;
+    phone: string;
+    gender: string;
+    nij: string;
+    address: string;
+}
+
+export interface Role {
+    id: number;
+    name: string;
 }
 
 export interface Paginated<T> {
