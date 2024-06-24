@@ -15,7 +15,7 @@ class FamilyAltarController extends Controller
      */
     public function index(Request $request): Response
     {
-        $familyAltars = FamilyAltar::with('user')->paginate(10);
+        $familyAltars = FamilyAltar::with('user')->paginate(50);
         return Inertia::render('FamilyAltar/Index', ["familyAltars" => $familyAltars]);
     }
 
