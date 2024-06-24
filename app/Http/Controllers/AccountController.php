@@ -21,7 +21,7 @@ class AccountController extends Controller
         return redirect()->back()->with('success', 'Role assigned successfully');
     }
 
-    public function revokeRole(Request $request)
+    public function removeRole(Request $request)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
