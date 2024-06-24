@@ -41,7 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/asign-role', [AccountController::class, 'asignRole'])->name('asign-role');
-    Route::post('/remove-role', [AccountController::class, 'removeRole'])->name('remove-role');
 });
 
 require __DIR__ . '/auth.php';
