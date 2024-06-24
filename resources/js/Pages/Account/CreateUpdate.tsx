@@ -95,42 +95,30 @@ import {
 const PAGETITLE = "Accounts";
 const SLUG = "account";
 export default function Create({ auth }: PageProps<{}>) {
-    // const [open, setOpen] = useState(false);
-    // const [usersSearch, setUsersSearch] = useState(
-    //     users.map((user) => {
-    //         return {
-    //             id: user.id,
-    //             value: user.name,
-    //         };
-    //     })
-    // );
-    // const {
-    //     data: values,
-    //     setData: setValues,
-    //     post,
-    //     put,
-    //     processing,
-    //     errors,
-    //     reset,
-    // } = useForm({
-    //     name: familyAltar ? familyAltar.name : "",
-    //     address: familyAltar ? familyAltar.address : "",
-    //     user_id: familyAltar ? familyAltar.user.id.toString() : "",
-    // });
+    const [open, setOpen] = useState(false);
+    const [rolesSearch, setRolesSearch] = useState(
+        roles.map((role) => {
+            return {
+                id: user.id,
+                value: user.name,
+            };
+        })
+    );
+    const { data, setData, post, put, processing, errors, reset } = useForm({});
 
     function handleChange(e: any) {
-        // const key = e.target.id;
-        // const value = e.target.value;
-        // setValues((values) => ({
-        //     ...values,
-        //     [key]: value,
-        // }));
+        const key = e.target.id;
+        const value = e.target.value;
+        setData((data) => ({
+            ...data,
+            [key]: value,
+        }));
     }
 
     function handleSubmit(e: any) {
-        // e.preventDefault();
-        // if (familyAltar) {
-        //     put(route("family-altar.update", familyAltar.id));
+        e.preventDefault();
+        // if (data) {
+        //     put(route("family-altar.update", data.id));
         // } else {
         //     post(route("family-altar.store"));
         // }
