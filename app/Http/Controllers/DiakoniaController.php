@@ -15,6 +15,8 @@ class DiakoniaController extends Controller
      */
     public function index(Request $request): Response
     {
+        $this->authorize('viewAny', Diakonia::class);
+
         if ($request->filter !== 'semua' && $request->filter !== null) {
             $diakonias = Diakonia::where('status', $request->filter)->latest()->paginate(50);
             return Inertia::render('Diakonia/Index', ["diakonias" => $diakonias]);
@@ -28,6 +30,8 @@ class DiakoniaController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Diakonia::class);
+
         return Inertia::render('Diakonia/CreateUpdate', ["mode" => "create"]);
     }
 
@@ -36,6 +40,8 @@ class DiakoniaController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Diakonia::class);
+
         $user_id = auth()->user()->id;
         $familyAltar = FamilyAltar::where('user_id', $user_id)->get();
         $validated = $request->validate([
@@ -77,6 +83,8 @@ class DiakoniaController extends Controller
      */
     public function edit(Diakonia $diakonium)
     {
+        $this->authorize('update', $diakonium);
+
         // $diakonium->requester_help = json_decode($diakonium->requester_help);
         return Inertia::render('Diakonia/CreateUpdate', ["mode" => "update", "diakonia" => $diakonium->load('familyAltar')]);
     }
@@ -86,6 +94,8 @@ class DiakoniaController extends Controller
      */
     public function update(Request $request, Diakonia $diakonium)
     {
+        $this->authorize('update', $diakonium);
+
         $validated = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -118,6 +128,8 @@ class DiakoniaController extends Controller
      */
     public function destroy(Diakonia $diakonium)
     {
+        $this->authorize('delete', $diakonium);
+
         $diakonium->delete();
 
         return redirect()->route('diakonia.index')->with('success', 'Form berhasil dihapus');
