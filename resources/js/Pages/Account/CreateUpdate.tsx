@@ -1,80 +1,15 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
-import { FamilyAltar, PageProps, User } from "@/types";
-import {
-    File,
-    Home,
-    LineChart,
-    ListFilter,
-    MoreHorizontal,
-    Package,
-    Package2,
-    PanelLeft,
-    PlusCircle,
-    Search,
-    Settings,
-    ShoppingCart,
-    Users2,
-    Check,
-    ChevronsUpDown,
-} from "lucide-react";
-import { Badge } from "@/Components/ui/badge";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/Components/ui/breadcrumb";
+import { PageProps, Role, User } from "@/types";
 import { Button } from "@/Components/ui/button";
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/Components/ui/card";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/Components/ui/dropdown-menu";
 import { Input } from "@/Components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-    TableCaption,
-    TableFooter,
-} from "@/Components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/Components/ui/tooltip";
-import { useState } from "react";
-import { router } from "@inertiajs/react";
 import { Label } from "@/Components/ui/label";
-import { format, set } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/Components/ui/calendar";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/Components/ui/popover";
 import {
     Select,
     SelectContent,
@@ -82,29 +17,38 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/Components/ui/select";
-import { Textarea } from "@/Components/ui/textarea";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-} from "@/Components/ui/command";
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu";
+
 const PAGETITLE = "Accounts";
 const SLUG = "account";
-export default function Create({ auth }: PageProps<{}>) {
-    const [open, setOpen] = useState(false);
-    const [rolesSearch, setRolesSearch] = useState(
-        roles.map((role) => {
-            return {
-                id: user.id,
-                value: user.name,
-            };
-        })
-    );
-    const { data, setData, post, put, processing, errors, reset } = useForm({});
+
+interface Form {
+    new_email: string;
+    new_password: string;
+    name: string;
+    gender: string;
+    address: string;
+    phone: string;
+    nij: string;
+    roles: number[];
+}
+
+export default function Create({ auth, roles, user }: PageProps<{ roles: Role[], user: User }>) {
+
+    const { data, setData, post, put, processing, errors, reset } = useForm<Form>({
+        new_email: user ? user.email : "",
+        new_password: "",
+        name: user ? user.name : "",
+        gender: user ? user.profile.gender : "",
+        address: user ? user.profile.address : "",
+        phone: user ? user.profile.phone : "",
+        nij: user ? user.profile.nij : "",
+        roles: user ? user.roles.map((role) => role.id) : [],
+    });
+
+    console.log(errors);
+
+    console.log(data);
 
     function handleChange(e: any) {
         const key = e.target.id;
@@ -115,126 +59,137 @@ export default function Create({ auth }: PageProps<{}>) {
         }));
     }
 
+    function handleRoleSelect(roleId: number) {
+        if (data.roles.includes(roleId)) {
+            setData((data) => ({
+                ...data,
+                roles: data.roles.filter((roleId) => roleId !== roleId),
+            }));
+        } else {
+            setData((data) => ({
+                ...data,
+                roles: [...data.roles, roleId],
+            }));
+        }
+    }
+
     function handleSubmit(e: any) {
         e.preventDefault();
-        // if (data) {
-        //     put(route("family-altar.update", data.id));
-        // } else {
-        //     post(route("family-altar.store"));
-        // }
+        if (user) {
+            put(route("account.update", user.id));
+        } else {
+            post(route("account.store"));
+        }
     }
-    const values = {};
+
     return (
         <AuthenticatedLayout user={auth.user} title={PAGETITLE}>
             <Head title={PAGETITLE} />
             <div className="flex ">
                 <Button>
-                    <Link href="/family-altar">Back</Link>
+                    <Link href={route('account.index')}>Back</Link>
                 </Button>
             </div>
-            <form onSubmit={handleSubmit} className="flex gap-4 flex-col">
+            <form onSubmit={handleSubmit} className="flex gap-4 flex-col" autoComplete="off">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Buat {PAGETITLE}</CardTitle>
+                        <CardTitle>{user ? "Perbarui" : "Buat"} {PAGETITLE}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
+                                <Label htmlFor="new_email">Email</Label>
+                                <Input
+                                    id="new_email"
+                                    name="new_email"
+                                    value={data.new_email}
+                                    onChange={handleChange}
+                                    autoComplete="new-email"
+                                    disabled={user ? true : false}
+                                />
+                            </div>
+                            <div>
+                                <Label htmlFor="new_password">Password</Label>
+                                <Input
+                                    id="new_password"
+                                    name="new_password"
+                                    value={data.new_password}
+                                    onChange={handleChange}
+                                    type="password"
+                                    autoComplete="new-password"
+                                    disabled={user ? true : false}
+                                />
+                            </div>
+                            <div>
                                 <Label htmlFor="name">Name</Label>
                                 <Input
                                     id="name"
-                                    // value={values?.name}
+                                    value={data.name}
                                     onChange={handleChange}
                                 />
+                            </div>
+                            <div>
+                                <Label htmlFor="gender">Gender</Label>
+                                <Select onValueChange={(value) => setData('gender', value)} value={data.gender}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Pilih" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="L">Laki-laki</SelectItem>
+                                        <SelectItem value="P">Perempuan</SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </div>
                             <div>
                                 <Label htmlFor="address">Address</Label>
                                 <Input
                                     id="address"
-                                    // value={values?.address}
+                                    value={data.address}
                                     onChange={handleChange}
                                 />
                             </div>
                             <div>
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    id="email"
-                                    // value={values?.email}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div>
-                                <Label htmlFor="phone">Phone Number</Label>
+                                <Label htmlFor="phone">Phone</Label>
                                 <Input
                                     id="phone"
-                                    // value={values?.phone}
+                                    value={data.phone}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div>
+                                <Label htmlFor="nij">NIJ</Label>
+                                <Input
+                                    id="nij"
+                                    value={data.nij}
                                     onChange={handleChange}
                                 />
                             </div>
                             <div className="flex flex-col gap-1">
-                                <Label>Roles</Label>
-                                <Popover open={open} onOpenChange={setOpen}>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant="outline"
-                                            role="combobox"
-                                            aria-expanded={open}
-                                            className="w-[200px] justify-between"
-                                        >
-                                            {role?.user_id
-                                                ? users.find(
-                                                      (user) =>
-                                                          user.id.toString() ===
-                                                          values?.user_id
-                                                  )?.name
-                                                : "Pilih ketua"}
-                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-[200px] p-0">
-                                        <Command>
-                                            <CommandInput placeholder="Cari ketua" />
-                                            <CommandList>
-                                                <CommandGroup>
-                                                    {usersSearch.map((user) => (
-                                                        <CommandItem
-                                                            key={user.value}
-                                                            value={user.value}
-                                                            onSelect={(
-                                                                currentValue
-                                                            ) => {
-                                                                setValues(
-                                                                    "user_id",
-                                                                    user.id.toString()
-                                                                );
-                                                                setOpen(false);
-                                                            }}
-                                                        >
-                                                            <Check
-                                                                className={cn(
-                                                                    "mr-2 h-4 w-4",
-                                                                    values?.user_id ===
-                                                                        user.value
-                                                                        ? "opacity-100"
-                                                                        : "opacity-0"
-                                                                )}
-                                                            />
-                                                            {user.value}
-                                                        </CommandItem>
-                                                    ))}
-                                                </CommandGroup>
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
+                                <Label htmlFor="roles">Roles</Label>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button className="w-full">Select Roles</Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        {roles.map((role) => (
+                                            <DropdownMenuCheckboxItem
+                                                key={role.id}
+                                                checked={data.roles.includes(role.id)}
+                                                onCheckedChange={() => handleRoleSelect(role.id)}
+                                            >
+                                                {role.name}
+                                            </DropdownMenuCheckboxItem>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </div>
                         </div>
                     </CardContent>
                 </Card>
 
-                {/* <Button type="submit" disabled={processing}>
+                <Button type="submit" disabled={processing}>
                     Submit
-                </Button> */}
+                </Button>
             </form>
         </AuthenticatedLayout>
     );

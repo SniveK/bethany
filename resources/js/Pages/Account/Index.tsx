@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
-import { PageProps, Paginated } from "@/types";
+import { PageProps, Paginated, User } from "@/types";
 import {
     File,
     Home,
@@ -66,10 +66,10 @@ const PAGETITLE = "Accounts";
 export default function Index({
     auth,
     users,
-}: PageProps<{ users: Paginated<any[]> }>) {
+}: PageProps<{ users: Paginated<User> }>) {
     function destroy(id: number): void {
         if (confirm("Are you sure you want to delete this item?")) {
-            router.delete(route("family-altar.destroy", id));
+            router.delete(route("account.destroy", id));
         }
     }
 
@@ -92,7 +92,7 @@ export default function Index({
                         <PlusCircle className="h-3.5 w-3.5" />
                         <Link
                             className="sm:whitespace-nowrap"
-                            href="/account/create"
+                            href={route("account.create")}
                         >
                             Tambah {PAGETITLE}
                         </Link>
@@ -118,21 +118,20 @@ export default function Index({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {console.log(users)}
-                            {users?.map((user) => (
-                                <TableRow>
+                            {users.data.map((user) => (
+                                <TableRow key={user.id}>
                                     <TableCell className="font-medium">
                                         {user.name}
                                     </TableCell>
                                     <TableCell>
-                                        <Badge variant="default">Admin</Badge>
+                                        {user.roles.map((role) => <Badge key={role.id} variant="default">{role.name}</Badge>)}
                                     </TableCell>
-                                    <TableCell>08121313</TableCell>
+                                    <TableCell>{user.profile.phone}</TableCell>
                                     <TableCell className="hidden md:table-cell">
-                                        Email@email.com
+                                        {user.email}
                                     </TableCell>
                                     <TableCell className="hidden md:table-cell">
-                                        Jl sdfljasdfj
+                                        {user.profile.address}
                                     </TableCell>
                                     {/* <TableCell className="hidden md:table-cell">
                                     {Date.now().toLocaleString()}
@@ -157,16 +156,13 @@ export default function Index({
                                                 </DropdownMenuLabel>
                                                 <DropdownMenuItem>
                                                     <Link
-                                                    // href={route(
-                                                    //     "account.edit"
-                                                    //     // account.id
-                                                    // )}
+                                                        href={route("account.edit", user.id)}
                                                     >
                                                         Edit
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
-                                                // onClick={() => destroy(1)}
+                                                    onClick={() => destroy(user.id)}
                                                 >
                                                     Delete
                                                 </DropdownMenuItem>

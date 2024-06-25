@@ -205,7 +205,7 @@ export default function AuthenticatedLayout({
                                 <FormInput className="h-4 w-4" />
                                 Diakonia
                             </Link>
-                            <Link
+                            {/* <Link
                                 href="/family-altar"
                                 className={
                                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
@@ -216,7 +216,7 @@ export default function AuthenticatedLayout({
                             >
                                 <UsersRound className="h-4 w-4" />
                                 Family Altar
-                            </Link>
+                            </Link> */}
                             <Link
                                 href="/family-altar"
                                 className={
@@ -229,7 +229,7 @@ export default function AuthenticatedLayout({
                                 <UsersRound className="h-4 w-4" />
                                 Survey
                             </Link>
-                            <Link
+                            {/* <Link
                                 href="/account"
                                 className={
                                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
@@ -240,7 +240,7 @@ export default function AuthenticatedLayout({
                             >
                                 <CircleUserRound className="h-4 w-4" />
                                 Accounts
-                            </Link>
+                            </Link> */}
                             {/* <Link
                                 href="/family-altar"
                                 className={
@@ -257,7 +257,7 @@ export default function AuthenticatedLayout({
                                 </Badge>
                             </Link> */}
 
-                            {/* <Separator></Separator>
+                            <Separator></Separator>
                             <Link
                                 href=""
                                 className={
@@ -291,7 +291,7 @@ export default function AuthenticatedLayout({
                                 Family Altar
                             </Link>
                             <Link
-                                href="/accounts"
+                                href="/account"
                                 className={
                                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
                                     (url.startsWith("/o")
@@ -301,7 +301,7 @@ export default function AuthenticatedLayout({
                             >
                                 <CircleUserRound className="h-4 w-4" />
                                 Accounts
-                            </Link> */}
+                            </Link>
                             {/* <Link
                                 href="#"
                                 className={
