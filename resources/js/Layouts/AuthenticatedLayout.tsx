@@ -151,11 +151,12 @@ import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
 import { PropsWithChildren } from "react";
 import { Link, usePage } from "@inertiajs/react";
 import { Separator } from "@/Components/ui/separator";
+import { User } from "@/types";
 export default function AuthenticatedLayout({
     user,
     title,
     children,
-}: PropsWithChildren<{ user: any; title?: String }>) {
+}: PropsWithChildren<{ user: User; title?: String }>) {
     const { url, component } = usePage();
     return (
         <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -256,52 +257,56 @@ export default function AuthenticatedLayout({
                                     6
                                 </Badge>
                             </Link> */}
+                            {user.roles.some((role) => role.id === 3) && (
+                                <>
+                                    <Separator></Separator>
+                                    <Link
+                                        href=""
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primarybg-muted"
+                                        }
+                                    >
+                                        Admin
+                                    </Link>
+                                    <Link
+                                        href={route("admin.diakonia.form")}
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                            (url.startsWith("/admin/diakonia")
+                                                ? "bg-muted"
+                                                : "text-muted-foreground")
+                                        }
+                                    >
+                                        <FormInput className="h-4 w-4" />
+                                        Form Diakonia
+                                    </Link>
+                                    <Link
+                                        href="/family-altar"
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                            (url.startsWith("/family-altar")
+                                                ? "bg-muted"
+                                                : "text-muted-foreground")
+                                        }
+                                    >
+                                        <UsersRound className="h-4 w-4" />
+                                        Family Altar
+                                    </Link>
+                                    <Link
+                                        href="/account"
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                            (url.startsWith("/o")
+                                                ? "bg-muted"
+                                                : "text-muted-foreground")
+                                        }
+                                    >
+                                        <CircleUserRound className="h-4 w-4" />
+                                        Accounts
+                                    </Link>
+                                </>
+                            )}
 
-                            <Separator></Separator>
-                            <Link
-                                href=""
-                                className={
-                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primarybg-muted"
-                                }
-                            >
-                                Admin
-                            </Link>
-                            <Link
-                                href="/accounts"
-                                className={
-                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
-                                    (url.startsWith("/o")
-                                        ? "bg-muted"
-                                        : "text-muted-foreground")
-                                }
-                            >
-                                <FormInput className="h-4 w-4" />
-                                Form Diakonia
-                            </Link>
-                            <Link
-                                href="/family-altar"
-                                className={
-                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
-                                    (url.startsWith("/family-altar")
-                                        ? "bg-muted"
-                                        : "text-muted-foreground")
-                                }
-                            >
-                                <UsersRound className="h-4 w-4" />
-                                Family Altar
-                            </Link>
-                            <Link
-                                href="/account"
-                                className={
-                                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
-                                    (url.startsWith("/o")
-                                        ? "bg-muted"
-                                        : "text-muted-foreground")
-                                }
-                            >
-                                <CircleUserRound className="h-4 w-4" />
-                                Accounts
-                            </Link>
                             {/* <Link
                                 href="#"
                                 className={
@@ -326,6 +331,58 @@ export default function AuthenticatedLayout({
                                 <LineChart className="h-4 w-4" />
                                 Analytics
                             </Link> */}
+                            {user.roles.some((role) => role.id === 1) && (
+                                <>
+                                    <Separator></Separator>
+                                    <Link
+                                        href=""
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primarybg-muted"
+                                        }
+                                    >
+                                        Ketua Departemen
+                                    </Link>
+                                    <Link
+                                        href={route("ketua-departemen.diakonia.form")}
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                            (url.startsWith("/ketua-departemen/diakonia")
+                                                ? "bg-muted"
+                                                : "text-muted-foreground")
+                                        }
+                                    >
+                                        <FormInput className="h-4 w-4" />
+                                        Form Diakonia
+                                    </Link>
+                                </>
+                            )}
+
+                            {user.roles.some((role) => role.id === 2) && (
+                                <>
+                                    <Separator></Separator>
+                                    <Link
+                                        href=""
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primarybg-muted"
+                                        }
+                                    >
+                                        Ketua Divisi
+                                    </Link>
+                                    <Link
+                                        href={route("ketua-divisi.diakonia.form")}
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                            (url.startsWith("/ketua-divisi/diakonia")
+                                                ? "bg-muted"
+                                                : "text-muted-foreground")
+                                        }
+                                    >
+                                        <FormInput className="h-4 w-4" />
+                                        Form Diakonia
+                                    </Link>
+                                </>
+                            )}
+
                         </nav>
                     </div>
                     {/* <div className="mt-auto p-4">

@@ -44,4 +44,9 @@ class Diakonia extends Model
     {
         return $this->belongsTo(FamilyAltar::class);
     }
+
+    public function diakoniaAprovals()
+    {
+        return $this->hasMany(DiakoniaAproval::class);
+    }
 }

@@ -28,7 +28,7 @@ export default function Show({
     const [comment, setComment] = useState('');
 
     const submit = (status: string) => {
-        router.post(route('admin.diakonia.approve', diakonia.id), {
+        router.post(route('ketua-departemen.diakonia.approve', diakonia.id), {
             status: status,
             comment: comment,
         });
@@ -38,7 +38,7 @@ export default function Show({
         <AuthenticatedLayout user={auth.user} title={"Diakonia"}>
             <Head title="Dashboard" />
             <div className="flex ">
-                <Link href={route("admin.diakonia.form")}>
+                <Link href={route("ketua-departemen.diakonia.form")}>
                     <Button>Back</Button>
                 </Link>
             </div>
@@ -174,7 +174,7 @@ export default function Show({
                     </Table>
                 </CardContent>
             </Card>
-            {diakonia.diakonia_aprovals.some((aproval) => aproval.role_id === 3) ? (
+            {diakonia.diakonia_aprovals.some((aproval) => aproval.role_id === 1) ? (
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-center">Approve</CardTitle>

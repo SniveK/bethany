@@ -48,6 +48,16 @@ export interface Diakonia {
     request_date: string;
     user: User;
     family_altar: FamilyAltar;
+    diakonia_aprovals: DiakoniaAproval[];
+}
+
+export interface DiakoniaAproval {
+    id: number;
+    status: string;
+    comment: string;
+    user: User;
+    role_id: number;
+    created_at: string;
 }
 
 export interface FamilyAltar {

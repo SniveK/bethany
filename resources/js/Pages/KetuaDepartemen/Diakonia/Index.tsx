@@ -84,7 +84,7 @@ export default function Index({
     function changeFilter(arg: string) {
         setFilter(arg);
         router.get(
-            route("admin.diakonia.form"),
+            route("ketua-departemen.diakonia.form"),
             { filter: arg },
             { preserveState: true }
         );
@@ -195,7 +195,7 @@ export default function Index({
                                         className="font-medium"
                                         onClick={() => {
                                             router.get(
-                                                route("admin.diakonia.show", item.id)
+                                                route("ketua-departemen.diakonia.show", item.id)
                                             );
                                         }}
                                     >
@@ -207,7 +207,7 @@ export default function Index({
                                         className="font-medium"
                                         onClick={() => {
                                             router.get(
-                                                route("admin.diakonia.show", item.id)
+                                                route("ketua-departemen.diakonia.show", item.id)
                                             );
                                         }}
                                     >
@@ -219,7 +219,7 @@ export default function Index({
                                         className="font-medium"
                                         onClick={() => {
                                             router.get(
-                                                route("admin.diakonia.show", item.id)
+                                                route("ketua-departemen.diakonia.show", item.id)
                                             );
                                         }}
                                     >
@@ -230,19 +230,19 @@ export default function Index({
                                     <TableCell
                                         onClick={() => {
                                             router.get(
-                                                route("admin.diakonia.show", item.id)
+                                                route("ketua-departemen.diakonia.show", item.id)
                                             );
                                         }}
                                     >
                                         <Badge variant="outline">
-                                            {item.diakonia_aprovals.find((approval) => approval.role_id === 3)?.status || "Pending"}
+                                            {item.diakonia_aprovals.find((approval) => approval.role_id === 1)?.status || "Pending"}
                                         </Badge>
                                     </TableCell>
                                     <TableCell
                                         className="hidden md:table-cell"
                                         onClick={() => {
                                             router.get(
-                                                route("admin.diakonia.show", item.id)
+                                                route("ketua-departemen.diakonia.show", item.id)
                                             );
                                         }}
                                     >
@@ -258,7 +258,7 @@ export default function Index({
                                         className="hidden md:table-cell"
                                         onClick={() => {
                                             router.get(
-                                                route("admin.diakonia.show", item.id)
+                                                route("ketua-departemen.diakonia.show", item.id)
                                             );
                                         }}
                                     >

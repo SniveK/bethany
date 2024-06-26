@@ -33,4 +33,19 @@ class DiakoniaPolicy
     {
         return $user->roles->pluck('id')->intersect([4])->isNotEmpty();
     }
+
+    public function admin(User $user)
+    {
+        return $user->roles->pluck('id')->intersect([3])->isNotEmpty();
+    }
+
+    public function ketuaDepartemen(User $user)
+    {
+        return $user->roles->pluck('id')->intersect([1])->isNotEmpty();
+    }
+
+    public function ketuaDivisi(User $user)
+    {
+        return $user->roles->pluck('id')->intersect([2])->isNotEmpty();
+    }
 }

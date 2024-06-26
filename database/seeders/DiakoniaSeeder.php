@@ -12,167 +12,25 @@ class DiakoniaSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Diakonia::create([
-            'requester_first_name' => 'John',
-            'requester_last_name' => 'Doe',
-            'requester_phone_number' => '1234567890',
-            'requester_birth_date' => '2024-06-15',
-            'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ], [
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ]],
-            'user_id' => 1,
-            'family_altar_id' => 1,
-        ]);
-        \App\Models\Diakonia::create([
-            'requester_first_name' => 'John',
-            'requester_last_name' => 'Doe',
-            'requester_phone_number' => '1234567890',
-            'requester_birth_date' => '2024-06-15',
-            'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ], [
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ]],
-            'user_id' => 1,
-            'family_altar_id' => 1,
-        ]);
-        \App\Models\Diakonia::create([
-            'requester_first_name' => 'John',
-            'requester_last_name' => 'Doe',
-            'requester_phone_number' => '1234567890',
-            'requester_birth_date' => '2024-06-15',
-            'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ], [
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ]],
-            'user_id' => 1,
-            'family_altar_id' => 1,
-        ]);
-        \App\Models\Diakonia::create([
-            'requester_first_name' => 'John',
-            'requester_last_name' => 'Doe',
-            'requester_phone_number' => '1234567890',
-            'requester_birth_date' => '2024-06-15',
-            'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ], [
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ]],
-            'user_id' => 1,
-            'family_altar_id' => 1,
-        ]);
-        \App\Models\Diakonia::create([
-            'requester_first_name' => 'John',
-            'requester_last_name' => 'Doe',
-            'requester_phone_number' => '1234567890',
-            'requester_birth_date' => '2024-06-15',
-            'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ], [
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ]],
-            'user_id' => 1,
-            'family_altar_id' => 1,
-        ]);
-        \App\Models\Diakonia::create([
-            'requester_first_name' => 'John',
-            'requester_last_name' => 'Doe',
-            'requester_phone_number' => '1234567890',
-            'requester_birth_date' => '2024-06-15',
-            'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ], [
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ]],
-            'user_id' => 1,
-            'family_altar_id' => 1,
-        ]);
-        \App\Models\Diakonia::create([
-            'requester_first_name' => 'John',
-            'requester_last_name' => 'Doe',
-            'requester_phone_number' => '1234567890',
-            'requester_birth_date' => '2024-06-15',
-            'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ], [
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ]],
-            'user_id' => 1,
-            'family_altar_id' => 1,
-        ]);
-        \App\Models\Diakonia::create([
-            'requester_first_name' => 'John',
-            'requester_last_name' => 'Doe',
-            'requester_phone_number' => '1234567890',
-            'requester_birth_date' => '2024-06-15',
-            'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ], [
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ]],
-            'user_id' => 1,
-            'family_altar_id' => 1,
-        ]);
-        \App\Models\Diakonia::create([
-            'requester_first_name' => 'John',
-            'requester_last_name' => 'Doe',
-            'requester_phone_number' => '1234567890',
-            'requester_birth_date' => '2024-06-15',
-            'status' => 'Diserahkan',
-            'requester_help' => [[
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ], [
-                'type' => 'makanan',
-                'amount' => 100000,
-                'notes' => 'note',
-            ]],
-            'user_id' => 1,
-            'family_altar_id' => 1,
-        ]);
+        for ($i = 0; $i < 10; $i++) {
+            \App\Models\Diakonia::create([
+                'requester_first_name' => fake()->firstName(),
+                'requester_last_name' => fake()->lastName(),
+                'requester_phone_number' => fake()->e164PhoneNumber(),
+                'requester_birth_date' => fake()->date(),
+                'status' => 'Diserahkan',
+                'requester_help' => [[
+                    'type' => 'makanan',
+                    'amount' => 100000,
+                    'notes' => 'note',
+                ], [
+                    'type' => 'makanan',
+                    'amount' => 100000,
+                    'notes' => 'note',
+                ]],
+                'user_id' => 1,
+                'family_altar_id' => 1,
+            ]);
+        }
     }
 }

@@ -14,11 +14,11 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         Role::create([
-            'name' => 'ketua',
+            'name' => 'ketua departemen',
         ]);
 
         Role::create([
-            'name' => 'wakil',
+            'name' => 'ketua divisi',
         ]);
 
         Role::create([
