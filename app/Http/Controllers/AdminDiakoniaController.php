@@ -127,6 +127,11 @@ class AdminDiakoniaController extends Controller
         $diakoniaAproval->role_id = 1;
         $diakoniaAproval->save();
 
+        if ($diakonia->diakoniaAprovals->where('role_id', 1)->where('status', 'Diterima')->count() == 1) {
+            $diakonia->status = 'Diterima';
+            $diakonia->save();
+        }
+
         return redirect()->route('ketua-departemen.diakonia.show', ['diakonia' => $diakonia->id])->with('success', 'Form Disetujui');
     }
 
@@ -197,6 +202,11 @@ class AdminDiakoniaController extends Controller
         $diakoniaAproval->user_id = Auth::user()->id;
         $diakoniaAproval->role_id = 2;
         $diakoniaAproval->save();
+
+        if ($diakonia->diakoniaAprovals->where('role_id', 2)->where('status', 'Diterima')->count() == 1) {
+            $diakonia->status = 'Diterima';
+            $diakonia->save();
+        }
 
         return redirect()->route('ketua-divisi.diakonia.show', ['diakonia' => $diakonia->id])->with('success', 'Form Disetujui');
     }
