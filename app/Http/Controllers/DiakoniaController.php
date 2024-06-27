@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Diakonia;
 use App\Models\FamilyAltar;
+use App\Models\User;
+use App\Notifications\FormSubmitted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,11 +20,14 @@ class DiakoniaController extends Controller
     {
         $this->authorize('viewAny', Diakonia::class);
 
-        if ($request->filter !== 'semua' && $request->filter !== null) {
-            $diakonias = Diakonia::where('status', $request->filter)->latest()->paginate(50);
-            return Inertia::render('Diakonia/Index', ["diakonias" => $diakonias]);
+        $query = Diakonia::query();
+
+        if ($request->has('filter') && $request->filter !== 'semua') {
+            $query->where('status', $request->filter);
         }
-        $diakonias = Diakonia::latest()->paginate(50);
+
+        $diakonias = $query->where('user_id', auth()->user()->id)->with('familyAltar')->latest()->paginate(50);
+
         return Inertia::render('Diakonia/Index', ["diakonias" => $diakonias]);
     }
 
@@ -54,18 +60,25 @@ class DiakoniaController extends Controller
             'diakonia.*.amount' => 'required|integer',
             'diakonia.*.notes' => 'required|string',
         ]);
-        dd($validated);
+
         $diakonia = Diakonia::create([
             'requester_first_name' => $validated['first_name'],
             'requester_last_name' => $validated['last_name'],
             'requester_phone_number' => $validated['phone_number'],
             'requester_birth_date' => $validated['birth_date'],
-            'request_date' => now()->format('Y-m-d'),
             'status' => 'Diserahkan',
             'requester_help' => $validated['diakonia'],
             'user_id' => auth()->user()->id,
             'family_altar_id' => $familyAltar->first()->id,
         ]);
+
+        $adminUsers = User::whereHas('roles', function ($query) {
+            $query->whereIn('role_id', [3]);
+        })->get();
+
+        // Send notification to each admin user
+        Notification::send($adminUsers, new FormSubmitted($diakonia));
+
         return redirect()->route('diakonia.index')->with('success', 'Form berhasil disimpan');
     }
 
@@ -113,7 +126,6 @@ class DiakoniaController extends Controller
             'requester_last_name' => $validated['last_name'],
             'requester_phone_number' => $validated['phone_number'],
             'requester_birth_date' => $validated['birth_date'],
-            'request_date' => now()->format('Y-m-d'),
             'status' => 'Diserahkan',
             'requester_help' => $validated['diakonia'],
             'user_id' => auth()->user()->id,
@@ -133,5 +145,11 @@ class DiakoniaController extends Controller
         $diakonium->delete();
 
         return redirect()->route('diakonia.index')->with('success', 'Form berhasil dihapus');
+    }
+
+    public function searchById(Request $request)
+    {
+        $diakonia = Diakonia::with('familyAltar')->find($request->id);
+        return response()->json($diakonia);
     }
 }

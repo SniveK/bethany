@@ -175,6 +175,7 @@ export default function Index({
                     <Table>
                         <TableHeader>
                             <TableRow>
+                                <TableHead>ID</TableHead>
                                 <TableHead>FA</TableHead>
                                 <TableHead>Ketua FA</TableHead>
                                 <TableHead>Name</TableHead>
@@ -191,6 +192,9 @@ export default function Index({
                         <TableBody>
                             {diakonias.data.map((item) => (
                                 <TableRow key={item.id}>
+                                    <TableCell className="font-medium">
+                                        {item.id}
+                                    </TableCell>
                                     <TableCell
                                         className="font-medium"
                                         onClick={() => {

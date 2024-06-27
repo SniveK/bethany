@@ -6,6 +6,7 @@ use App\Http\Controllers\DiakoniaController;
 use App\Http\Controllers\FamilyAltarController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -34,7 +35,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('/diakonia', DiakoniaController::class);
     Route::resource('/family-altar', FamilyAltarController::class);
     Route::resource('/account', AccountController::class);
 
@@ -54,12 +54,22 @@ Route::middleware('auth')->group(function () {
     Route::post('ketua-divisi/diakonia/{diakonia}/approve', [AdminDiakoniaController::class, 'ketuaDivisiApprove'])->name('ketua-divisi.diakonia.approve');
 
     // anggota
+    Route::resource('/diakonia', DiakoniaController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/asign-role', [AccountController::class, 'asignRole'])->name('asign-role');
+
+    Route::get('/api/notifications', function () {
+        return Auth::user()->unreadNotifications;
+    })->name('api.notifications');
+    Route::get('api/notification/read', function () {
+        Auth::user()->unreadNotifications->markAsRead();
+    })->name('api.notification.read');
+
+    Route::get('api/diakonia', [DiakoniaController::class, 'searchById'])->name('api.diakonia');
 });
 
 require __DIR__ . '/auth.php';

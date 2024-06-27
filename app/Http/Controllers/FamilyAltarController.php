@@ -24,7 +24,7 @@ class FamilyAltarController extends Controller
      */
     public function create()
     {
-        $users = User::all();
+        $users = User::doesntHave('family_altar')->get();
         return Inertia::render('FamilyAltar/CreateUpdate', ["users" => $users]);
     }
 
@@ -63,7 +63,7 @@ class FamilyAltarController extends Controller
     public function edit(FamilyAltar $family_altar)
     {
         $family_altar->load('user');
-        $users = User::all();
+        $users = User::doesntHave('family_altar')->get();
         return Inertia::render('FamilyAltar/CreateUpdate', ["users" => $users, "familyAltar" => $family_altar]);
     }
 

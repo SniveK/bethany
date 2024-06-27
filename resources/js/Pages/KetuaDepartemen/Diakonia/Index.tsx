@@ -156,15 +156,6 @@ export default function Index({
                                 Export
                             </span>
                         </Button> */}
-                    <Button size="sm" className="h-8 gap-1">
-                        <PlusCircle className="h-3.5 w-3.5" />
-                        <Link
-                            className="sr-only sm:not-sr-only sm:whitespace-nowrap"
-                            href="/diakonia/create"
-                        >
-                            Buat Form Diakonia
-                        </Link>
-                    </Button>
                 </div>
             </div>
             <Card x-chunk="dashboard-06-chunk-0">
@@ -175,6 +166,7 @@ export default function Index({
                     <Table>
                         <TableHeader>
                             <TableRow>
+                                <TableHead>ID</TableHead>
                                 <TableHead>FA</TableHead>
                                 <TableHead>Ketua FA</TableHead>
                                 <TableHead>Name</TableHead>
@@ -191,6 +183,9 @@ export default function Index({
                         <TableBody>
                             {diakonias.data.map((item) => (
                                 <TableRow key={item.id}>
+                                    <TableCell className="font-medium">
+                                        {item.id}
+                                    </TableCell>
                                     <TableCell
                                         className="font-medium"
                                         onClick={() => {

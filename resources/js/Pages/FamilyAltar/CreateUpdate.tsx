@@ -168,13 +168,9 @@ export default function Create({ auth, users, familyAltar }: PageProps<{ users: 
                                             aria-expanded={open}
                                             className="w-[200px] justify-between"
                                         >
-                                            {values.user_id
-                                                ? users.find(
-                                                    (user) =>
-                                                        user.id.toString() ===
-                                                        values.user_id
-                                                )?.name
-                                                : "Pilih ketua"}
+                                            {users.find((user) => user.id.toString() === values.user_id)
+                                                ? users.find((user) => user.id.toString() === values.user_id)?.name
+                                                : familyAltar ? familyAltar.user.name : "Pilih ketua"}
                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                         </Button>
                                     </PopoverTrigger>

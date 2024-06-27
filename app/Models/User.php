@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+    public function family_altar(): HasOne
+    {
+        return $this->hasOne(FamilyAltar::class);
+    }
 }
