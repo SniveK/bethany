@@ -22,7 +22,7 @@ export default function Show({
     auth,
     diakonia,
 }: PageProps<{ diakonia: Diakonia; links: any }>) {
-    console.log(diakonia);
+
     return (
         <AuthenticatedLayout user={auth.user} title={"Diakonia"}>
             <Head title="Dashboard" />
@@ -151,6 +151,31 @@ export default function Show({
                                 </TableCell>
                                 <TableCell className="font-medium"></TableCell>
                             </TableRow>
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Hasil</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-[100px]">Jabatan</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Komentar</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {diakonia.diakonia_aprovals.map((aproval) => (
+                                <TableRow key={aproval.id}>
+                                    <TableCell className="font-medium">{aproval.role.name}</TableCell>
+                                    <TableCell>{aproval.status}</TableCell>
+                                    <TableCell>{aproval.comment}</TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </CardContent>

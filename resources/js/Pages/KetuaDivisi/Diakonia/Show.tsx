@@ -177,7 +177,7 @@ export default function Show({
             {diakonia.diakonia_aprovals.some((aproval) => aproval.role_id === 2) ? (
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-center">Approve</CardTitle>
+                        <CardTitle className="text-center">{diakonia.diakonia_aprovals.find((aproval) => aproval.role_id === 2)?.status}</CardTitle>
                     </CardHeader>
                 </Card>
             ) : (

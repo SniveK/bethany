@@ -56,6 +56,7 @@ export interface DiakoniaAproval {
     status: string;
     comment: string;
     user: User;
+    role: Role;
     role_id: number;
     created_at: string;
 }

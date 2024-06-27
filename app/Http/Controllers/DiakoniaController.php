@@ -87,7 +87,7 @@ class DiakoniaController extends Controller
      */
     public function show(string $id)
     {
-        $diakonia = Diakonia::find($id);
+        $diakonia = Diakonia::with(['familyAltar', 'diakoniaAprovals', 'diakoniaAprovals.user', 'diakoniaAprovals.role'])->find($id);
         return Inertia::render('Diakonia/Show', ["diakonia" => $diakonia->load('familyAltar.user')]);
     }
 

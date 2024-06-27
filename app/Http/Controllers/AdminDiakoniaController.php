@@ -56,6 +56,11 @@ class AdminDiakoniaController extends Controller
         $diakoniaAproval->role_id = 3;
         $diakoniaAproval->save();
 
+        if ($request->status == 'Ditolak') {
+            $diakonia->status = 'Ditolak';
+            $diakonia->save();
+        }
+
         return redirect()->route('admin.diakonia.show', ['diakonia' => $diakonia->id])->with('success', 'Form Disetujui');
     }
 
@@ -127,8 +132,13 @@ class AdminDiakoniaController extends Controller
         $diakoniaAproval->role_id = 1;
         $diakoniaAproval->save();
 
-        if ($diakonia->diakoniaAprovals->where('role_id', 1)->where('status', 'Diterima')->count() == 1) {
+        if ($diakonia->diakoniaAprovals->where('role_id', 1)->where('status', 'Diterima')->count() == 1 && $request->status == 'Diterima') {
             $diakonia->status = 'Diterima';
+            $diakonia->save();
+        }
+
+        if ($request->status == 'Ditolak') {
+            $diakonia->status = 'Ditolak';
             $diakonia->save();
         }
 
@@ -203,8 +213,13 @@ class AdminDiakoniaController extends Controller
         $diakoniaAproval->role_id = 2;
         $diakoniaAproval->save();
 
-        if ($diakonia->diakoniaAprovals->where('role_id', 2)->where('status', 'Diterima')->count() == 1) {
+        if ($diakonia->diakoniaAprovals->where('role_id', 2)->where('status', 'Diterima')->count() == 1 && $request->status == 'Diterima') {
             $diakonia->status = 'Diterima';
+            $diakonia->save();
+        }
+
+        if ($request->status == 'Ditolak') {
+            $diakonia->status = 'Ditolak';
             $diakonia->save();
         }
 
