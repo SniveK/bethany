@@ -203,9 +203,7 @@ export default function Index({
                                             );
                                         }}
                                     >
-                                        {item.requester_first_name +
-                                            " " +
-                                            item.requester_last_name}
+                                        {item.family_altar.name}
                                     </TableCell>
                                     <TableCell
                                         className="font-medium"
@@ -215,9 +213,7 @@ export default function Index({
                                             );
                                         }}
                                     >
-                                        {item.requester_first_name +
-                                            " " +
-                                            item.requester_last_name}
+                                        {item.family_altar.user.name}
                                     </TableCell>
                                     <TableCell
                                         className="font-medium"
@@ -239,7 +235,7 @@ export default function Index({
                                         }}
                                     >
                                         <Badge variant="outline">
-                                            {item.diakonia_aprovals.find((approval) => approval.role_id === 3)?.status || "Pending"}
+                                            {item.status}
                                         </Badge>
                                     </TableCell>
                                     <TableCell

@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminDiakoniaController;
 use App\Http\Controllers\DiakoniaController;
 use App\Http\Controllers\FamilyAltarController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SurveyController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,22 +40,37 @@ Route::middleware('auth')->group(function () {
     Route::resource('/account', AccountController::class);
 
     // admin
-    Route::get('admin/diakonia', [AdminDiakoniaController::class, 'formDiakonia'])->name('admin.diakonia.form');
-    Route::get('admin/diakonia/{diakonia}', [AdminDiakoniaController::class, 'showDiakonia'])->name('admin.diakonia.show');
-    Route::post('admin/diakonia/{diakonia}/approve', [AdminDiakoniaController::class, 'approveForm'])->name('admin.diakonia.approve');
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/diakonia', [AdminDiakoniaController::class, 'formDiakonia'])->name('diakonia.form');
+        Route::get('/diakonia/{diakonia}', [AdminDiakoniaController::class, 'showDiakonia'])->name('diakonia.show');
+        Route::post('/diakonia/{diakonia}/approve', [AdminDiakoniaController::class, 'approveForm'])->name('diakonia.approve');
+        Route::resource('/survey', SurveyController::class);
+    });
+
 
     // ketua departemen
     Route::get('ketua-departemen/diakonia', [AdminDiakoniaController::class, 'ketuaDepartemenDiakonia'])->name('ketua-departemen.diakonia.form');
     Route::get('ketua-departemen/diakonia/{diakonia}', [AdminDiakoniaController::class, 'showKetuaDepartemenDiakonia'])->name('ketua-departemen.diakonia.show');
     Route::post('ketua-departemen/diakonia/{diakonia}/approve', [AdminDiakoniaController::class, 'ketuaDepartemenApprove'])->name('ketua-departemen.diakonia.approve');
+    Route::get('/ketua-departemen/survey', [SurveyController::class, 'ketuaDepartemenIndex'])->name('ketua-departemen.survey.index');
+    Route::get('/ketua-departemen/survey/{survey}', [SurveyController::class, 'ketuaDepartemenShow'])->name('ketua-departemen.survey.show');
+    Route::post('/ketua-departemen/survey/{survey}/hasil', [SurveyController::class, 'ketuaDepartemenHasil'])->name('ketua-departemen.survey.hasil');
 
     // ketua divisi
     Route::get('ketua-divisi/diakonia', [AdminDiakoniaController::class, 'ketuaDivisiDiakonia'])->name('ketua-divisi.diakonia.form');
     Route::get('ketua-divisi/diakonia/{diakonia}', [AdminDiakoniaController::class, 'showKetuaDivisiDiakonia'])->name('ketua-divisi.diakonia.show');
     Route::post('ketua-divisi/diakonia/{diakonia}/approve', [AdminDiakoniaController::class, 'ketuaDivisiApprove'])->name('ketua-divisi.diakonia.approve');
+    Route::get('/ketua-divisi/survey', [SurveyController::class, 'ketuaDivisiIndex'])->name('ketua-divisi.survey.index');
+    Route::get('/ketua-divisi/survey/{survey}', [SurveyController::class, 'ketuaDivisiShow'])->name('ketua-divisi.survey.show');
+    Route::post('/ketua-divisi/survey/{survey}/hasil', [SurveyController::class, 'ketuaDivisiHasil'])->name('ketua-divisi.survey.hasil');
 
     // anggota
     Route::resource('/diakonia', DiakoniaController::class);
+
+    // surveyor
+    Route::get('surveyor/survey', [SurveyController::class, 'surveyorIndex'])->name('surveyor.survey.index');
+    Route::get('surveyor/survey/{survey}', [SurveyController::class, 'surveyorShow'])->name('surveyor.survey.show');
+    Route::post('surveyor/survey/{survey}', [SurveyController::class, 'surveyorHasil'])->name('surveyor.survey.hasil');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -62,6 +78,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/asign-role', [AccountController::class, 'asignRole'])->name('asign-role');
 
+    // api
     Route::get('/api/notifications', function () {
         return Auth::user()->unreadNotifications;
     })->name('api.notifications');

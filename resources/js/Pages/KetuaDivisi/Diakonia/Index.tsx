@@ -194,9 +194,7 @@ export default function Index({
                                             );
                                         }}
                                     >
-                                        {item.requester_first_name +
-                                            " " +
-                                            item.requester_last_name}
+                                        {item.family_altar.name}
                                     </TableCell>
                                     <TableCell
                                         className="font-medium"
@@ -206,9 +204,7 @@ export default function Index({
                                             );
                                         }}
                                     >
-                                        {item.requester_first_name +
-                                            " " +
-                                            item.requester_last_name}
+                                        {item.family_altar.user.name}
                                     </TableCell>
                                     <TableCell
                                         className="font-medium"

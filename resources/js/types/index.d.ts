@@ -49,6 +49,7 @@ export interface Diakonia {
     user: User;
     family_altar: FamilyAltar;
     diakonia_aprovals: DiakoniaAproval[];
+    survey: Survey;
 }
 
 export interface DiakoniaAproval {
@@ -68,6 +69,28 @@ export interface FamilyAltar {
     address: string;
     leader_start_date: string;
     user: User;
+}
+
+export interface Survey {
+    id: number;
+    created_at: string;
+    user: User;
+    diakonia: Diakonia;
+    survey: string;
+    status: string;
+    proof_of_payment: string;
+    date: string;
+    survey_aprovals: SurveyAproval[];
+}
+
+export interface SurveyAproval {
+    id: number;
+    status: string;
+    comment: string;
+    user: User;
+    role: Role;
+    role_id: number;
+    created_at: string;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {

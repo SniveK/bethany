@@ -108,7 +108,7 @@ export default function Index({
                                 <TableHead>Alamat</TableHead>
                                 <TableHead>Nomor Telpon</TableHead>
                                 <TableHead className="hidden md:table-cell">
-                                    
+
                                 </TableHead>
                                 {/* <TableHead className="hidden md:table-cell">
                                     Dibuat Tanggal
@@ -152,7 +152,7 @@ export default function Index({
                                             <DropdownMenuLabel>
                                                 Actions
                                             </DropdownMenuLabel>
-                                            <DropdownMenuItem>
+                                            {/* <DropdownMenuItem>
                                                 <Link
                                                     // href={route(
                                                     //     "account.edit"
@@ -161,9 +161,9 @@ export default function Index({
                                                 >
                                                     Edit
                                                 </Link>
-                                            </DropdownMenuItem>
+                                            </DropdownMenuItem> */}
                                             <DropdownMenuItem
-                                                // onClick={() => destroy(1)}
+                                            // onClick={() => destroy(1)}
                                             >
                                                 Delete
                                             </DropdownMenuItem>

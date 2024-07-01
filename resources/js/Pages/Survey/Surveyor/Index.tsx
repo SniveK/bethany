@@ -1,36 +1,16 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
-import { Diakonia, PageProps, Paginated } from "@/types";
+import { Diakonia, PageProps, Paginated, Survey } from "@/types";
 import {
-    Calendar,
-    File,
-    Home,
-    LineChart,
     ListFilter,
-    MoreHorizontal,
-    Package,
-    Package2,
-    PanelLeft,
     PlusCircle,
     Search,
-    Settings,
-    ShoppingCart,
-    Users2,
 } from "lucide-react";
 import { Badge } from "@/Components/ui/badge";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/Components/ui/breadcrumb";
 import { Button } from "@/Components/ui/button";
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -39,13 +19,11 @@ import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
 import { Input } from "@/Components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
 import {
     Table,
     TableBody,
@@ -54,44 +32,28 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
 import TablePagination from "../../../Components/TablePagination";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/Components/ui/tooltip";
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/Components/ui/pagination";
 import {
     formatDate,
     formatNumberToRupiah,
-    formatStringToRupiah,
 } from "@/lib/utilities";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 export default function Index({
     auth,
-    diakonias,
-}: PageProps<{ diakonias: Paginated<Diakonia> }>) {
+    surveys,
+}: PageProps<{ surveys: Paginated<Survey> }>) {
     const [filter, setFilter] = useState("semua");
     function changeFilter(arg: string) {
         setFilter(arg);
         router.get(
-            route("ketua-departemen.diakonia.form"),
+            route("surveyor.survey.index"),
             { filter: arg },
             { preserveState: true }
         );
     }
     return (
-        <AuthenticatedLayout user={auth.user} title={"Diakonia"}>
-            <Head title="Dashboard" />
+        <AuthenticatedLayout user={auth.user} title={"Survey"}>
+            <Head title="Survey" />
             <div className="flex items-center">
                 <div className="relative flex-1 md:grow-0">
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -133,16 +95,10 @@ export default function Index({
                                 Pending
                             </DropdownMenuCheckboxItem>
                             <DropdownMenuCheckboxItem
-                                checked={filter === "Diterima"}
-                                onCheckedChange={() => changeFilter("Diterima")}
+                                checked={filter === "Sudah Survey"}
+                                onCheckedChange={() => changeFilter("Sudah Survey")}
                             >
-                                Diterima
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem
-                                checked={filter === "Ditolak"}
-                                onCheckedChange={() => changeFilter("Ditolak")}
-                            >
-                                Ditolak
+                                Sudah Survey
                             </DropdownMenuCheckboxItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -160,28 +116,22 @@ export default function Index({
             </div>
             <Card x-chunk="dashboard-06-chunk-0">
                 <CardHeader>
-                    <CardTitle>Form Diakonia</CardTitle>
+                    <CardTitle>Survey Diakonia</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Table>
                         <TableHeader>
                             <TableRow>
                                 <TableHead>ID</TableHead>
-                                <TableHead>FA</TableHead>
-                                <TableHead>Ketua FA</TableHead>
-                                <TableHead>Name</TableHead>
+                                <TableHead>Surveyor</TableHead>
+                                <TableHead>Form Diakonia ID</TableHead>
                                 <TableHead>Status</TableHead>
-                                <TableHead className="hidden md:table-cell">
-                                    Jumlah
-                                </TableHead>
-                                <TableHead className="hidden md:table-cell">
-                                    Created at
-                                </TableHead>
+                                <TableHead>Tanggal Survey</TableHead>
                                 {/* <TableHead>Actions</TableHead> */}
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {diakonias.data.map((item) => (
+                            {surveys.data.map((item) => (
                                 <TableRow key={item.id}>
                                     <TableCell className="font-medium">
                                         {item.id}
@@ -190,71 +140,44 @@ export default function Index({
                                         className="font-medium"
                                         onClick={() => {
                                             router.get(
-                                                route("ketua-departemen.diakonia.show", item.id)
+                                                route("surveyor.survey.show", item.id)
                                             );
                                         }}
                                     >
-                                        {item.family_altar.name}
+                                        {item.user.name}
                                     </TableCell>
                                     <TableCell
                                         className="font-medium"
                                         onClick={() => {
                                             router.get(
-                                                route("ketua-departemen.diakonia.show", item.id)
+                                                route("surveyor.survey.show", item.id)
                                             );
                                         }}
                                     >
-                                        {item.family_altar.user.name}
+                                        {item.diakonia.id}
                                     </TableCell>
                                     <TableCell
                                         className="font-medium"
                                         onClick={() => {
                                             router.get(
-                                                route("ketua-departemen.diakonia.show", item.id)
+                                                route("surveyor.survey.show", item.id)
                                             );
                                         }}
                                     >
-                                        {item.requester_first_name +
-                                            " " +
-                                            item.requester_last_name}
+                                        {item.survey ? "Sudah Survey" : "Pending"}
                                     </TableCell>
                                     <TableCell
                                         onClick={() => {
                                             router.get(
-                                                route("ketua-departemen.diakonia.show", item.id)
+                                                route("surveyor.survey.show", item.id)
                                             );
                                         }}
                                     >
                                         <Badge variant="outline">
-                                            {item.diakonia_aprovals.find((approval) => approval.role_id === 1)?.status || "Pending"}
+                                            {item.date}
                                         </Badge>
                                     </TableCell>
-                                    <TableCell
-                                        className="hidden md:table-cell"
-                                        onClick={() => {
-                                            router.get(
-                                                route("ketua-departemen.diakonia.show", item.id)
-                                            );
-                                        }}
-                                    >
-                                        {formatNumberToRupiah(
-                                            item.requester_help.reduce(
-                                                (total: any, helpItem: any) =>
-                                                    total + helpItem.amount,
-                                                0
-                                            )
-                                        )}
-                                    </TableCell>
-                                    <TableCell
-                                        className="hidden md:table-cell"
-                                        onClick={() => {
-                                            router.get(
-                                                route("ketua-departemen.diakonia.show", item.id)
-                                            );
-                                        }}
-                                    >
-                                        {formatDate(item.created_at)}
-                                    </TableCell>
+
                                     {/* <TableCell>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
@@ -299,7 +222,7 @@ export default function Index({
                                 <strong>32</strong> products */}
                     </div>
                     <div className="flex gap-2">
-                        <TablePagination db_data={diakonias} />
+                        <TablePagination db_data={surveys} />
                     </div>
                 </CardFooter>
             </Card>

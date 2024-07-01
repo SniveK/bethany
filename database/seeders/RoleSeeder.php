@@ -28,5 +28,9 @@ class RoleSeeder extends Seeder
         Role::create([
             'name' => 'anggota',
         ]);
+
+        Role::create([
+            'name' => 'surveyor',
+        ]);
     }
 }

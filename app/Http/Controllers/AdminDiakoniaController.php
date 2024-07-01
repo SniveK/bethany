@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Diakonia;
 use App\Models\DiakoniaAproval;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -14,19 +15,21 @@ class AdminDiakoniaController extends Controller
     {
         $this->authorize('admin', Diakonia::class);
 
+        $query = Diakonia::with('familyAltar.user', 'diakoniaAprovals.user');
+
         if ($request->filter == 'Pending') {
-            $diakonias = Diakonia::with('familyAltar', 'diakoniaAprovals.user')->doesntHave('diakoniaAprovals')->latest()->paginate(50);
+            $query->doesntHave('diakoniaAprovals');
         } else if ($request->filter == 'Diterima') {
-            $diakonias = Diakonia::with('familyAltar', 'diakoniaAprovals.user')->whereHas('diakoniaAprovals', function ($query) {
+            $query->whereHas('diakoniaAprovals', function ($query) {
                 $query->where('role_id', 3)->where('status', 'Diterima');
-            })->latest()->paginate(50);
+            });
         } else if ($request->filter == 'Ditolak') {
-            $diakonias = Diakonia::with('familyAltar', 'diakoniaAprovals.user')->whereHas('diakoniaAprovals', function ($query) {
+            $query->whereHas('diakoniaAprovals', function ($query) {
                 $query->where('role_id', 3)->where('status', 'Ditolak');
-            })->latest()->paginate(50);
-        } else {
-            $diakonias = Diakonia::with('familyAltar', 'diakoniaAprovals.user')->latest()->paginate(50);
+            });
         }
+
+        $diakonias = $query->latest()->paginate(50);
 
         return Inertia::render('Admin/Diakonia/Index', ["diakonias" => $diakonias]);
     }
@@ -35,8 +38,12 @@ class AdminDiakoniaController extends Controller
     {
         $this->authorize('admin', Diakonia::class);
 
-        $diakonia->load(['familyAltar', 'diakoniaAprovals.user']);
-        return Inertia::render('Admin/Diakonia/Show', ["diakonia" => $diakonia]);
+        $diakonia->load(['familyAltar.user', 'diakoniaAprovals.user', 'survey']);
+        $surveyors = User::whereHas('roles', function ($query) {
+            $query->where('role_id', 5);
+        })->get();
+
+        return Inertia::render('Admin/Diakonia/Show', ["diakonia" => $diakonia, 'surveyors' => $surveyors]);
     }
 
     public function approveForm(Request $request, Diakonia $diakonia)
@@ -59,6 +66,9 @@ class AdminDiakoniaController extends Controller
         if ($request->status == 'Ditolak') {
             $diakonia->status = 'Ditolak';
             $diakonia->save();
+        } else if ($request->status == 'Diterima') {
+            $diakonia->status = 'Menunggu Approval';
+            $diakonia->save();
         }
 
         return redirect()->route('admin.diakonia.show', ['diakonia' => $diakonia->id])->with('success', 'Form Disetujui');
@@ -69,40 +79,33 @@ class AdminDiakoniaController extends Controller
     {
         $this->authorize('ketuaDepartemen', Diakonia::class);
 
+        $query = Diakonia::with('familyAltar.user', 'diakoniaAprovals.user');
+
         if ($request->filter == 'Pending') {
-            $diakonias = Diakonia::with('familyAltar', 'diakoniaAprovals.user')
+            $query->whereDoesntHave('diakoniaAprovals', function ($query) {
+                $query->where('role_id', 1);
+            })
                 ->whereHas('diakoniaAprovals', function ($query) {
                     $query->where('role_id', 3)->where('status', 'Diterima');
-                })->whereDoesntHave('diakoniaAprovals', function ($query) {
-                    $query->where('role_id', 1);
-                })
-                ->latest()
-                ->paginate(50);
-        } else if ($request->filter == 'Diterima') {
-            $diakonias = Diakonia::with('familyAltar', 'diakoniaAprovals.user')
-                ->whereHas('diakoniaAprovals', function ($query) {
-                    $query->where('role_id', 1)
-                        ->where('status', 'Diterima');
-                })
-                ->latest()
-                ->paginate(50);
-        } else if ($request->filter == 'Ditolak') {
-            $diakonias = Diakonia::with('familyAltar', 'diakoniaAprovals.user')
-                ->whereHas('diakoniaAprovals', function ($query) {
-                    $query->where('role_id', 1)
-                        ->where('status', 'Ditolak');
-                })
-                ->latest()
-                ->paginate(50);
+                });
+        } elseif ($request->filter == 'Diterima') {
+            $query->whereHas('diakoniaAprovals', function ($query) {
+                $query->where('role_id', 1)
+                    ->where('status', 'Diterima');
+            });
+        } elseif ($request->filter == 'Ditolak') {
+            $query->whereHas('diakoniaAprovals', function ($query) {
+                $query->where('role_id', 1)
+                    ->where('status', 'Ditolak');
+            });
         } else {
-            $diakonias = Diakonia::whereHas('diakoniaAprovals', function ($query) {
+            $query->whereHas('diakoniaAprovals', function ($query) {
                 $query->where('role_id', 3)
                     ->where('status', 'Diterima');
-            })
-                ->with('familyAltar', 'diakoniaAprovals.user')
-                ->latest()
-                ->paginate(50);
+            });
         }
+
+        $diakonias = $query->latest()->paginate(50);
 
         return Inertia::render('KetuaDepartemen/Diakonia/Index', ["diakonias" => $diakonias]);
     }
@@ -111,7 +114,7 @@ class AdminDiakoniaController extends Controller
     {
         $this->authorize('ketuaDepartemen', Diakonia::class);
 
-        $diakonia->load(['familyAltar', 'diakoniaAprovals.user']);
+        $diakonia->load(['familyAltar.user', 'diakoniaAprovals.user']);
         return Inertia::render('KetuaDepartemen/Diakonia/Show', ["diakonia" => $diakonia]);
     }
 
@@ -132,8 +135,8 @@ class AdminDiakoniaController extends Controller
         $diakoniaAproval->role_id = 1;
         $diakoniaAproval->save();
 
-        if ($diakonia->diakoniaAprovals->where('role_id', 1)->where('status', 'Diterima')->count() == 1 && $request->status == 'Diterima') {
-            $diakonia->status = 'Diterima';
+        if ($diakonia->diakoniaAprovals->where('role_id', 2)->where('status', 'Diterima')->count() == 1 && $request->status == 'Diterima') {
+            $diakonia->status = 'Menunggu Survey';
             $diakonia->save();
         }
 
@@ -150,40 +153,29 @@ class AdminDiakoniaController extends Controller
     {
         $this->authorize('ketuaDivisi', Diakonia::class);
 
+        $query = Diakonia::with('familyAltar.user', 'diakoniaAprovals.user');
+
         if ($request->filter == 'Pending') {
-            $diakonias = Diakonia::with('familyAltar', 'diakoniaAprovals.user')
-                ->whereHas('diakoniaAprovals', function ($query) {
-                    $query->where('role_id', 3)->where('status', 'Diterima');
-                })->whereDoesntHave('diakoniaAprovals', function ($query) {
-                    $query->where('role_id', 2);
-                })
-                ->latest()
-                ->paginate(50);
+            $query->whereHas('diakoniaAprovals', function ($query) {
+                $query->where('role_id', 3)->where('status', 'Diterima');
+            })->whereDoesntHave('diakoniaAprovals', function ($query) {
+                $query->where('role_id', 2);
+            });
         } else if ($request->filter == 'Diterima') {
-            $diakonias = Diakonia::with('familyAltar', 'diakoniaAprovals.user')
-                ->whereHas('diakoniaAprovals', function ($query) {
-                    $query->where('role_id', 2)
-                        ->where('status', 'Diterima');
-                })
-                ->latest()
-                ->paginate(50);
+            $query->whereHas('diakoniaAprovals', function ($query) {
+                $query->where('role_id', 2)->where('status', 'Diterima');
+            });
         } else if ($request->filter == 'Ditolak') {
-            $diakonias = Diakonia::with('familyAltar', 'diakoniaAprovals.user')
-                ->whereHas('diakoniaAprovals', function ($query) {
-                    $query->where('role_id', 2)
-                        ->where('status', 'Ditolak');
-                })
-                ->latest()
-                ->paginate(50);
+            $query->whereHas('diakoniaAprovals', function ($query) {
+                $query->where('role_id', 2)->where('status', 'Ditolak');
+            });
         } else {
-            $diakonias = Diakonia::whereHas('diakoniaAprovals', function ($query) {
-                $query->where('role_id', 3)
-                    ->where('status', 'Diterima');
-            })
-                ->with('familyAltar', 'diakoniaAprovals.user')
-                ->latest()
-                ->paginate(50);
+            $query->whereHas('diakoniaAprovals', function ($query) {
+                $query->where('role_id', 3)->where('status', 'Diterima');
+            });
         }
+
+        $diakonias = $query->latest()->paginate(50);
 
         return Inertia::render('KetuaDivisi/Diakonia/Index', ["diakonias" => $diakonias]);
     }
@@ -192,7 +184,7 @@ class AdminDiakoniaController extends Controller
     {
         $this->authorize('ketuaDivisi', Diakonia::class);
 
-        $diakonia->load(['familyAltar', 'diakoniaAprovals.user']);
+        $diakonia->load(['familyAltar.user', 'diakoniaAprovals.user']);
         return Inertia::render('KetuaDivisi/Diakonia/Show', ["diakonia" => $diakonia]);
     }
 
@@ -213,8 +205,8 @@ class AdminDiakoniaController extends Controller
         $diakoniaAproval->role_id = 2;
         $diakoniaAproval->save();
 
-        if ($diakonia->diakoniaAprovals->where('role_id', 2)->where('status', 'Diterima')->count() == 1 && $request->status == 'Diterima') {
-            $diakonia->status = 'Diterima';
+        if ($diakonia->diakoniaAprovals->where('role_id', 1)->where('status', 'Diterima')->count() == 1 && $request->status == 'Diterima') {
+            $diakonia->status = 'Menunggu Survey';
             $diakonia->save();
         }
 

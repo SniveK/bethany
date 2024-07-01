@@ -49,4 +49,9 @@ class Diakonia extends Model
     {
         return $this->hasMany(DiakoniaAproval::class);
     }
+
+    public function survey()
+    {
+        return $this->hasOne(Survey::class);
+    }
 }

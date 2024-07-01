@@ -279,6 +279,18 @@ export default function AuthenticatedLayout({
                                         <CircleUserRound className="h-4 w-4" />
                                         Accounts
                                     </Link>
+                                    <Link
+                                        href={route("admin.survey.index")}
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                            (url.startsWith("/admin/survey")
+                                                ? "bg-muted"
+                                                : "text-muted-foreground")
+                                        }
+                                    >
+                                        <CircleUserRound className="h-4 w-4" />
+                                        Survey
+                                    </Link>
                                 </>
                             )}
                             {user.roles.some((role) => role.id === 1) && (
@@ -303,6 +315,18 @@ export default function AuthenticatedLayout({
                                     >
                                         <FormInput className="h-4 w-4" />
                                         Form Diakonia
+                                    </Link>
+                                    <Link
+                                        href={route("ketua-departemen.survey.index")}
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                            (url.startsWith("/ketua-departemen/survey")
+                                                ? "bg-muted"
+                                                : "text-muted-foreground")
+                                        }
+                                    >
+                                        <FormInput className="h-4 w-4" />
+                                        Form Survey
                                     </Link>
                                 </>
                             )}
@@ -329,6 +353,18 @@ export default function AuthenticatedLayout({
                                     >
                                         <FormInput className="h-4 w-4" />
                                         Form Diakonia
+                                    </Link>
+                                    <Link
+                                        href={route("ketua-divisi.survey.index")}
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                            (url.startsWith("/ketua-divisi/survey")
+                                                ? "bg-muted"
+                                                : "text-muted-foreground")
+                                        }
+                                    >
+                                        <FormInput className="h-4 w-4" />
+                                        Form Survey
                                     </Link>
                                 </>
                             )}
@@ -358,7 +394,31 @@ export default function AuthenticatedLayout({
                                     </Link>
                                 </>
                             )}
-
+                            {user.roles.some((role) => role.id === 5) && (
+                                <>
+                                    <Separator></Separator>
+                                    <Link
+                                        href=""
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primarybg-muted"
+                                        }
+                                    >
+                                        Surveyor
+                                    </Link>
+                                    <Link
+                                        href={route("surveyor.survey.index")}
+                                        className={
+                                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary " +
+                                            (url.startsWith("/surveyor/survey")
+                                                ? "bg-muted"
+                                                : "text-muted-foreground")
+                                        }
+                                    >
+                                        <FormInput className="h-4 w-4" />
+                                        Form Survey
+                                    </Link>
+                                </>
+                            )}
                         </nav>
                     </div>
                 </div>
