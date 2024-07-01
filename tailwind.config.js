@@ -2,24 +2,15 @@ import forms from "@tailwindcss/forms";
 import defaultTheme from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-    darkMode: ["class"],
+export default {
+    darkMode: "class",
     content: [
-        "./pages/**/*.{ts,tsx}",
-        "./components/**/*.{ts,tsx}",
-        "./app/**/*.{ts,tsx}",
-        "./src/**/*.{ts,tsx}",
-
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
-        // "./resources/views/**/*.blade.php",
+        "./resources/views/**/*.blade.php",
         "./resources/js/**/*.tsx",
-
-        // "./resources/**/*.blade.php",
-        // "./resources/**/*.js",
-        // "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
     ],
-    prefix: "",
+
     theme: {
         container: {
             center: true,
@@ -29,9 +20,6 @@ module.exports = {
             },
         },
         extend: {
-            fontFamily: {
-                sans: ["Figtree", ...defaultTheme.fontFamily.sans],
-            },
             colors: {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
@@ -68,18 +56,21 @@ module.exports = {
                 },
             },
             borderRadius: {
-                lg: "var(--radius)",
-                md: "calc(var(--radius) - 2px)",
+                lg: `var(--radius)`,
+                md: `calc(var(--radius) - 2px)`,
                 sm: "calc(var(--radius) - 4px)",
+            },
+            fontFamily: {
+                sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
             keyframes: {
                 "accordion-down": {
-                    from: { height: "0" },
+                    from: { height: 0 },
                     to: { height: "var(--radix-accordion-content-height)" },
                 },
                 "accordion-up": {
                     from: { height: "var(--radix-accordion-content-height)" },
-                    to: { height: "0" },
+                    to: { height: 0 },
                 },
             },
             animation: {
@@ -88,5 +79,6 @@ module.exports = {
             },
         },
     },
-    plugins: [require("tailwindcss-animate"), forms],
+
+    plugins: [forms, require("tailwindcss-animate")],
 };
